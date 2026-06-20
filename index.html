@@ -1,0 +1,3292 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>কম্পিউটার রক্ষণাবেক্ষণ ও সাইবার নিরাপত্তা শিক্ষণ প্ল্যাটফর্ম</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===================== DESIGN TOKENS ===================== */
+  :root{
+    --ink:#16213E;
+    --ink-soft:#4A5578;
+    --ink-faint:#8089AC;
+    --blue:#2D5BFF;
+    --blue-dark:#1E3FCC;
+    --cyan:#117A87;
+    --purple:#7D58E0;
+    --bg-soft:#F4F7FF;
+    --bg-card:#FFFFFF;
+    --white:#FFFFFF;
+    --danger:#FF5470;
+    --warning:#FFC857;
+    --success:#2ED9A6;
+    --shadow-sm:0 2px 10px rgba(45,91,255,0.08);
+    --shadow-md:0 10px 28px rgba(45,91,255,0.14);
+    --shadow-lg:0 20px 48px rgba(45,91,255,0.20);
+    --glass-bg:rgba(255,255,255,0.72);
+    --glass-border:rgba(255,255,255,0.5);
+    --radius-sm:12px;
+    --radius-md:20px;
+    --radius-lg:28px;
+    --gradient-main:linear-gradient(135deg,#2D5BFF 0%,#117A87 55%,#7D58E0 100%);
+    --gradient-soft:linear-gradient(135deg,rgba(45,91,255,0.10),rgba(155,123,255,0.10));
+    --font-display:'Baloo Da 2',sans-serif;
+    --font-body:'Noto Sans Bengali',sans-serif;
+    --nav-height:72px;
+    --transition-theme:background .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
+  }
+
+  /* ===== DARK MODE TOKENS ===== */
+  [data-theme="dark"]{
+    --ink:#E8EEFF;
+    --ink-soft:#A8B4D8;
+    --ink-faint:#8896C4;
+    --blue:#5B8AFF;
+    --blue-dark:#4A6FE0;
+    --cyan:#22C4D6;
+    --purple:#B09AFF;
+    --bg-soft:#0F1525;
+    --bg-card:#1A2240;
+    --white:#1A2240;
+    --danger:#FF6B83;
+    --warning:#FFD07A;
+    --success:#36EDB5;
+    --shadow-sm:0 2px 10px rgba(0,0,0,0.3);
+    --shadow-md:0 10px 28px rgba(0,0,0,0.4);
+    --shadow-lg:0 20px 48px rgba(0,0,0,0.5);
+    --glass-bg:rgba(26,34,64,0.80);
+    --glass-border:rgba(91,138,255,0.2);
+    --gradient-soft:linear-gradient(135deg,rgba(91,138,255,0.12),rgba(176,154,255,0.12));
+  }
+
+  /* ===== THEME TRANSITION ===== */
+  *,*::before,*::after{ transition:var(--transition-theme); }
+  button,a,input{ transition:var(--transition-theme),transform .18s,box-shadow .18s,filter .18s; }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg-soft);
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,.font-display{font-family:var(--font-display);}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  :focus-visible{outline:3px solid var(--purple);outline-offset:3px;border-radius:6px;}
+
+  /* ===== DARK MODE BODY OVERRIDES ===== */
+  [data-theme="dark"] body{background:var(--bg-soft);}
+  [data-theme="dark"] .navbar{background:rgba(15,21,37,0.92);}
+  [data-theme="dark"] .nav-link:hover{background:rgba(91,138,255,0.15);}
+  [data-theme="dark"] .nav-drawer{background:#131B30;}
+  [data-theme="dark"] .pw-main-card,[data-theme="dark"] .pw-side-card,
+  [data-theme="dark"] .tf-quiz-card,[data-theme="dark"] .tf-result-card,
+  [data-theme="dark"] .ts-tree-card,[data-theme="dark"] .cert-card,
+  [data-theme="dark"] .acc-item,[data-theme="dark"] .final-stat-card,
+  [data-theme="dark"] .final-badge-card,[data-theme="dark"] .final-module-item,
+  [data-theme="dark"] .ref-card,[data-theme="dark"] .module-card,
+  [data-theme="dark"] .stats-card{background:var(--bg-card);border-color:rgba(91,138,255,0.15);}
+  [data-theme="dark"] .match-chip{background:var(--bg-card);border-color:rgba(91,138,255,0.2);color:var(--ink);}
+  [data-theme="dark"] .match-zone{background:rgba(91,138,255,0.07);border-color:rgba(91,138,255,0.25);color:var(--ink-soft);}
+  [data-theme="dark"] .pw-input{background:#0F1525;border-color:rgba(91,138,255,0.25);color:var(--ink);}
+  [data-theme="dark"] .pw-suggest-code{background:#0F1525;color:var(--blue);}
+  [data-theme="dark"] .pw-suggest-box{background:rgba(91,138,255,0.1);}
+  [data-theme="dark"] .pw-tip-card{background:rgba(91,138,255,0.1);}
+  [data-theme="dark"] .tf-option-btn,.su-btn,[data-theme="dark"] .ct-option-btn,[data-theme="dark"] .ts-tree-opt-btn{background:rgba(91,138,255,0.08);border-color:rgba(91,138,255,0.2);}
+  [data-theme="dark"] .ct-scenario-box{background:rgba(176,154,255,0.1);border-color:rgba(176,154,255,0.4);}
+  [data-theme="dark"] .su-card{background:var(--bg-card);}
+  [data-theme="dark"] .srt-zone{background:rgba(91,138,255,0.07);border-color:rgba(91,138,255,0.25);}
+  [data-theme="dark"] .srt-zone.hover-target{background:rgba(91,138,255,0.14);}
+  [data-theme="dark"] .info-box{background:rgba(91,138,255,0.12);border-color:var(--blue);}
+  [data-theme="dark"] .danger-box{background:rgba(255,107,131,0.1);border-color:var(--danger);}
+  [data-theme="dark"] .success-box{background:rgba(54,237,181,0.1);border-color:var(--success);}
+  [data-theme="dark"] .learn-note-box{background:rgba(176,154,255,0.1);border-color:var(--purple);}
+  [data-theme="dark"] .pw-meter-track,[data-theme="dark"] .tf-progress-track{background:rgba(91,138,255,0.12);}
+  [data-theme="dark"] .cert-name-input{background:#0F1525;border-color:rgba(91,138,255,0.25);color:var(--ink);}
+  [data-theme="dark"] .cert-card{background:linear-gradient(135deg,rgba(91,138,255,0.06),rgba(176,154,255,0.06));border-color:var(--blue);}
+  [data-theme="dark"] .ts-tab-btn{background:rgba(91,138,255,0.08);border-color:rgba(91,138,255,0.2);color:var(--ink-soft);}
+  [data-theme="dark"] .ts-tab-btn.active{background:var(--gradient-main);}
+  [data-theme="dark"] .acc-trigger .acc-num{background:rgba(91,138,255,0.15);}
+  [data-theme="dark"] .pill{background:rgba(91,138,255,0.1);}
+  [data-theme="dark"] footer{background:#0A0F1E;}
+  [data-theme="dark"] .match-score-badge{background:rgba(91,138,255,0.15);}
+
+  /* ===== DARK MODE TOGGLE BUTTON ===== */
+  .theme-toggle{
+    width:42px;height:42px;border-radius:12px;background:var(--gradient-soft);
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+    border:1px solid rgba(45,91,255,0.15);
+  }
+  .theme-toggle:hover{transform:scale(1.1);box-shadow:var(--shadow-sm);}
+
+  /* ===== LOADING SCREEN ===== */
+  #loadingScreen{
+    position:fixed;inset:0;z-index:9999;
+    background:var(--gradient-main);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    color:#fff;font-family:var(--font-display);
+    transition:opacity .4s ease,visibility .4s ease;
+  }
+  #loadingScreen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+  .loading-icon{font-size:52px;animation:loadSpin 1.4s ease-in-out infinite;}
+  @keyframes loadSpin{0%,100%{transform:scale(1) rotate(0deg);}50%{transform:scale(1.18) rotate(15deg);}}
+  .loading-text{font-size:19px;font-weight:700;}
+  .loading-bar{width:200px;height:5px;border-radius:999px;background:rgba(255,255,255,0.25);overflow:hidden;}
+  .loading-bar-fill{height:100%;width:0%;border-radius:999px;background:#fff;animation:loadFill 1.2s ease forwards;}
+  @keyframes loadFill{to{width:100%;}}
+
+  /* ===== SCROLL-TRIGGERED ANIMATIONS (AOS) ===== */
+  .aos{opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease;}
+  .aos.aos-left{transform:translateX(-34px);}
+  .aos.aos-right{transform:translateX(34px);}
+  .aos.aos-scale{transform:scale(0.88);}
+  .aos.aos-in{opacity:1 !important;transform:none !important;}
+  .stagger-parent .aos:nth-child(1){transition-delay:.05s;}
+  .stagger-parent .aos:nth-child(2){transition-delay:.13s;}
+  .stagger-parent .aos:nth-child(3){transition-delay:.21s;}
+  .stagger-parent .aos:nth-child(4){transition-delay:.29s;}
+  .stagger-parent .aos:nth-child(5){transition-delay:.37s;}
+  .stagger-parent .aos:nth-child(6){transition-delay:.45s;}
+  .stagger-parent .aos:nth-child(7){transition-delay:.53s;}
+
+  /* ===== GLASSMORPHISM CARDS ===== */
+  .glass-card{
+    background:var(--glass-bg);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--glass-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+  }
+  /* Compound selectors below intentionally use higher specificity so the translucent
+     glass background wins over each card's own solid background, regardless of source order. */
+  .stats-card.glass-card,.ref-card.glass-card,.tf-quiz-card.glass-card,
+  .ts-tree-card.glass-card,.module-card.glass-card{
+    background:var(--glass-bg) !important;
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--glass-border);
+  }
+
+  /* ===== HERO PARALLAX ===== */
+  .hero-parallax{transform:translateY(0);will-change:transform;}
+
+  /* ===== GENERATE NEW QUIZ BUTTON (shared) ===== */
+  .generate-quiz-btn{
+    display:inline-flex;align-items:center;gap:7px;background:var(--gradient-soft);
+    border:1px solid rgba(45,91,255,0.18);border-radius:999px;padding:9px 18px;
+    font-size:13px;font-weight:700;color:var(--blue-dark);
+    transition:transform .18s,box-shadow .18s;
+  }
+  .generate-quiz-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+
+  /* ===== SOUND FEEDBACK PULSE ===== */
+  .correct-flash{animation:correctFlash .35s ease;}
+  @keyframes correctFlash{0%{box-shadow:0 0 0 0 rgba(46,217,166,0.6);}100%{box-shadow:0 0 0 18px rgba(46,217,166,0);}}
+  .wrong-flash-border{animation:wrongFlash .35s ease;}
+  @keyframes wrongFlash{0%{box-shadow:0 0 0 0 rgba(255,84,112,0.6);}100%{box-shadow:0 0 0 18px rgba(255,84,112,0);}}
+
+  .container{max-width:1180px;margin:0 auto;padding:0 20px;}
+
+  /* ===================== NAVIGATION ===================== */
+  .navbar{
+    position:sticky;top:0;left:0;right:0;z-index:1000;
+    height:var(--nav-height);
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(45,91,255,0.08);
+    display:flex;align-items:center;
+  }
+  .nav-inner{
+    width:100%;max-width:1180px;margin:0 auto;padding:0 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;color:var(--ink);}
+  .brand-badge{
+    width:38px;height:38px;border-radius:11px;background:var(--gradient-main);
+    display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+    box-shadow:var(--shadow-sm);
+  }
+  .brand-text{font-size:16px;line-height:1.2;white-space:nowrap;}
+  .brand-text small{display:block;font-family:var(--font-body);font-weight:500;color:var(--ink-faint);font-size:11px;}
+
+  .nav-links{display:flex;align-items:center;gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;}
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-link{
+    display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;
+    font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+    transition:background .2s,color .2s,transform .15s;
+  }
+  .nav-link:hover{background:var(--gradient-soft);color:var(--blue);}
+  .nav-link.active{background:var(--gradient-main);color:#fff;box-shadow:var(--shadow-sm);}
+  .nav-icon{font-size:16px;}
+
+  .menu-toggle{
+    display:none;width:42px;height:42px;border-radius:12px;background:var(--gradient-soft);
+    align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+  }
+
+  .nav-drawer-overlay{
+    position:fixed;inset:0;background:rgba(22,33,62,0.45);z-index:1100;
+    opacity:0;visibility:hidden;transition:opacity .25s;
+  }
+  .nav-drawer-overlay.open{opacity:1;visibility:visible;}
+  .nav-drawer{
+    position:fixed;top:0;right:0;height:100%;width:78%;max-width:320px;
+    background:var(--white);z-index:1101;padding:24px 18px;
+    transform:translateX(100%);transition:transform .3s ease;
+    display:flex;flex-direction:column;gap:6px;overflow-y:auto;
+  }
+  .nav-drawer-overlay.open .nav-drawer{transform:translateX(0);}
+  .nav-drawer-close{align-self:flex-end;width:36px;height:36px;border-radius:10px;background:var(--bg-soft);font-size:18px;margin-bottom:10px;}
+  .nav-drawer .nav-link{justify-content:flex-start;padding:13px 14px;font-size:15px;}
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .menu-toggle{display:flex;}
+  }
+
+  /* ===================== BUTTONS ===================== */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 26px;border-radius:999px;font-weight:700;font-size:15px;
+    transition:transform .18s,box-shadow .18s,filter .18s;
+  }
+  .btn:active{transform:translateY(1px) scale(0.98);}
+  .btn-primary{background:var(--gradient-main);color:#fff;box-shadow:var(--shadow-md);}
+  .btn-primary:hover{filter:brightness(1.07);box-shadow:var(--shadow-lg);transform:translateY(-2px);}
+  .btn-ghost{background:#fff;color:var(--blue);box-shadow:var(--shadow-sm);border:1px solid rgba(45,91,255,0.15);}
+  .btn-ghost:hover{background:var(--gradient-soft);transform:translateY(-2px);}
+
+  /* ===================== PAGES ===================== */
+  .page{display:none;animation:fadeIn .4s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ===================== HERO ===================== */
+  .hero{
+    position:relative;background:var(--gradient-main);color:#fff;
+    padding:64px 0 100px;overflow:hidden;
+  }
+  .hero-grid{
+    position:absolute;inset:0;opacity:0.18;
+    background-image:
+      linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse 70% 60% at 60% 30%,#000 40%,transparent 80%);
+  }
+  .hero-orb{
+    position:absolute;width:380px;height:380px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,0.22),transparent 70%);
+    top:-120px;right:-80px;
+  }
+  .float-icon{
+    position:absolute;font-size:34px;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.15));
+    animation:floaty 6s ease-in-out infinite;opacity:0.9;
+  }
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-18px) rotate(4deg);}}
+  .fi-1{top:14%;right:14%;animation-delay:0s;}
+  .fi-2{top:58%;right:6%;animation-delay:1.2s;font-size:28px;}
+  .fi-3{top:32%;right:30%;animation-delay:2.4s;font-size:24px;}
+  .fi-4{top:74%;right:26%;animation-delay:.6s;font-size:26px;}
+
+  .hero-inner{position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,0.18);padding:7px 16px;border-radius:999px;
+    font-size:13px;font-weight:600;margin-bottom:22px;backdrop-filter:blur(6px);
+  }
+  .hero h1{font-size:clamp(28px,5vw,46px);line-height:1.25;max-width:760px;margin-bottom:16px;font-weight:700;}
+  .hero p.subtitle{font-size:clamp(15px,2.2vw,19px);max-width:600px;opacity:0.92;margin-bottom:32px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .hero .btn-ghost{background:rgba(255,255,255,0.95);}
+
+  /* ===================== STATS BAR ===================== */
+  .stats-bar{position:relative;margin-top:-64px;z-index:3;}
+  .stats-card{
+    background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+    padding:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  }
+  .stat-item{display:flex;align-items:center;gap:14px;padding:6px;}
+  .stat-icon{
+    width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-size:24px;flex-shrink:0;
+  }
+  .stat-icon.b1{background:rgba(45,91,255,0.10);}
+  .stat-icon.b2{background:rgba(46,217,166,0.12);}
+  .stat-icon.b3{background:rgba(155,123,255,0.12);}
+  .stat-value{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--ink);line-height:1.1;}
+  .stat-label{font-size:12.5px;color:var(--ink-faint);font-weight:600;margin-top:2px;}
+
+  .progress-row{grid-column:1/-1;margin-top:6px;}
+  .progress-row .progress-label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:8px;}
+  .progress-track{height:12px;border-radius:999px;background:var(--bg-soft);overflow:hidden;}
+  .progress-fill{height:100%;border-radius:999px;background:var(--gradient-main);transition:width .6s ease;}
+
+  @media (max-width:760px){
+    .stats-card{grid-template-columns:1fr;}
+  }
+
+  /* ===================== MODULE MAP ===================== */
+  .section{padding:72px 0;}
+  .section-head{text-align:center;max-width:620px;margin:0 auto 44px;}
+  .section-head .kicker{color:var(--cyan);font-weight:700;font-size:13px;letter-spacing:.04em;}
+  .section-head h2{font-size:clamp(24px,3.4vw,32px);margin:8px 0 10px;color:var(--ink);}
+  .section-head p{color:var(--ink-soft);font-size:15px;}
+
+  .ref-card{
+    display:flex;align-items:center;gap:18px;background:#fff;border-radius:var(--radius-lg);
+    padding:24px 26px;box-shadow:var(--shadow-md);margin-bottom:40px;
+    border:1px solid rgba(45,91,255,0.08);flex-wrap:wrap;
+  }
+  .ref-card .ref-icon{
+    width:58px;height:58px;border-radius:16px;background:var(--gradient-soft);
+    display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;
+  }
+  .ref-card .ref-text{flex:1;min-width:200px;}
+  .ref-card .ref-text h3{font-size:17px;margin-bottom:4px;}
+  .ref-card .ref-text p{font-size:13.5px;color:var(--ink-soft);}
+  .tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;}
+  .tag-ready{background:rgba(46,217,166,0.14);color:#179b78;}
+  .tag-play{background:rgba(45,91,255,0.10);color:var(--blue-dark);}
+  .tag-progress{background:rgba(155,123,255,0.16);color:#6b46c1;}
+
+  .module-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  @media (max-width:980px){.module-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.module-grid{grid-template-columns:1fr;}}
+
+  .module-card{
+    position:relative;background:#fff;border-radius:var(--radius-lg);padding:26px 22px 22px;
+    box-shadow:var(--shadow-sm);border:1px solid rgba(45,91,255,0.06);
+    display:flex;flex-direction:column;gap:12px;transition:transform .22s,box-shadow .22s;
+  }
+  .module-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
+  .level-badge{
+    position:absolute;top:-14px;left:18px;
+    width:38px;height:34px;
+    clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+    background:var(--gradient-main);color:#fff;font-family:var(--font-display);font-weight:700;font-size:14px;
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);
+  }
+  .module-card .m-icon{font-size:30px;}
+  .module-card h3{font-size:16.5px;color:var(--ink);}
+  .module-card p{font-size:13px;color:var(--ink-soft);min-height:38px;}
+  .module-card .m-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:6px;}
+  .module-card .m-go{font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:4px;}
+  .module-card .m-points{font-size:12px;color:var(--ink-faint);font-weight:600;}
+
+  /* ===================== SUMMARY (ACCORDION) PAGE ===================== */
+  .page-header{
+    background:var(--gradient-soft);padding:46px 0 38px;border-bottom:1px solid rgba(45,91,255,0.07);
+  }
+  .page-header .back-link{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--blue);margin-bottom:14px;}
+  .page-header h1{font-size:clamp(24px,4vw,34px);color:var(--ink);margin-bottom:8px;}
+  .page-header p{color:var(--ink-soft);font-size:14.5px;max-width:600px;}
+
+  .accordion{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .acc-item{background:#fff;border-radius:var(--radius-md);box-shadow:var(--shadow-sm);overflow:hidden;border:1px solid rgba(45,91,255,0.06);}
+  .acc-trigger{
+    width:100%;display:flex;align-items:center;gap:14px;padding:18px 20px;text-align:left;
+  }
+  .acc-trigger .acc-num{
+    width:36px;height:36px;border-radius:10px;background:var(--gradient-soft);color:var(--blue);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--font-display);
+    flex-shrink:0;font-size:15px;
+  }
+  .acc-trigger .acc-title{flex:1;font-weight:700;font-size:15.5px;color:var(--ink);}
+  .acc-trigger .acc-chevron{font-size:13px;color:var(--ink-faint);transition:transform .25s;flex-shrink:0;}
+  .acc-item.open .acc-chevron{transform:rotate(180deg);}
+  .acc-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .acc-item.open .acc-panel{max-height:2400px;}
+  .acc-body{padding:0 22px 22px 22px;font-size:14px;color:var(--ink-soft);}
+  .acc-body p{margin-bottom:10px;}
+  .acc-body ul{margin:10px 0 14px;display:flex;flex-direction:column;gap:8px;}
+  .acc-body li{display:flex;gap:8px;align-items:flex-start;}
+  .acc-body li::before{content:"▸";color:var(--cyan);font-weight:700;flex-shrink:0;margin-top:1px;}
+  .info-box{
+    background:rgba(45,91,255,0.06);border-left:3px solid var(--blue);border-radius:10px;
+    padding:13px 16px;font-size:13.5px;color:var(--ink);margin:10px 0;
+  }
+  .danger-box{
+    background:rgba(255,84,112,0.08);border-left:3px solid var(--danger);border-radius:10px;
+    padding:13px 16px;font-size:13.5px;color:var(--ink);margin:10px 0;
+  }
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+  .pill{background:var(--bg-soft);color:var(--ink-soft);font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:999px;}
+
+  /* ===================== MODULE 1: PASSWORD STRENGTH CHECKER ===================== */
+  .pw-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:26px;align-items:start;}
+  @media (max-width:860px){.pw-layout{grid-template-columns:1fr;}}
+
+  .pw-main-card,.pw-side-card{
+    background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);
+    padding:28px;border:1px solid rgba(45,91,255,0.06);
+  }
+
+  .pw-label{display:block;font-weight:700;font-size:14px;color:var(--ink);margin-bottom:10px;}
+
+  .pw-input-wrap{position:relative;margin-bottom:22px;}
+  .pw-input{
+    width:100%;padding:16px 52px 16px 18px;border-radius:14px;border:2px solid rgba(45,91,255,0.12);
+    font-size:17px;font-family:var(--font-body);letter-spacing:0.5px;color:var(--ink);
+    transition:border-color .2s,box-shadow .2s;background:var(--bg-soft);
+  }
+  .pw-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(45,91,255,0.12);background:#fff;}
+  .pw-toggle-eye{
+    position:absolute;top:50%;right:14px;transform:translateY(-50%);font-size:18px;
+    width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    color:var(--ink-faint);
+  }
+  .pw-toggle-eye:hover{background:var(--bg-soft);}
+
+  .pw-meter-block{margin-bottom:18px;}
+  .pw-meter-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;}
+  .pw-strength-badge{
+    display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;
+    font-size:13px;font-weight:700;background:var(--bg-soft);color:var(--ink-faint);
+    transition:background .3s,color .3s;
+  }
+  .pw-strength-badge.weak{background:rgba(255,84,112,0.14);color:#c43a55;}
+  .pw-strength-badge.medium{background:rgba(255,200,87,0.18);color:#a3760a;}
+  .pw-strength-badge.strong{background:rgba(46,217,166,0.16);color:#179b78;}
+  .pw-strength-badge.pop{animation:badgePop .35s ease;}
+  @keyframes badgePop{0%{transform:scale(0.85);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
+  .pw-score-label{font-size:12.5px;color:var(--ink-faint);font-weight:600;}
+
+  .pw-meter-track{height:14px;border-radius:999px;background:var(--bg-soft);overflow:hidden;}
+  .pw-meter-fill{height:100%;border-radius:999px;width:0%;transition:width .45s ease,background .45s ease;background:var(--ink-faint);}
+
+  .pw-criteria{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+  .pw-criteria li{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink-faint);transition:color .25s;}
+  .pw-criteria li .c-mark{
+    width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:11px;background:var(--bg-soft);color:var(--ink-faint);flex-shrink:0;transition:background .25s,color .25s;
+  }
+  .pw-criteria li.pass{color:#179b78;}
+  .pw-criteria li.pass .c-mark{background:rgba(46,217,166,0.18);color:#179b78;}
+  .pw-criteria li.fail{color:#c43a55;}
+  .pw-criteria li.fail .c-mark{background:rgba(255,84,112,0.12);color:#c43a55;}
+
+  .pw-suggest-box{background:var(--gradient-soft);border-radius:16px;padding:16px 18px;margin-bottom:4px;}
+  .pw-suggest-head{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:10px;}
+  .pw-suggest-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .pw-suggest-code{
+    flex:1;background:#fff;padding:11px 14px;border-radius:10px;font-size:15px;font-weight:700;
+    color:var(--blue-dark);letter-spacing:0.5px;border:1px solid rgba(45,91,255,0.12);
+    font-family:'Courier New',monospace;min-width:160px;
+  }
+  .pw-mini-btn{
+    background:#fff;border:1px solid rgba(45,91,255,0.15);padding:8px 14px;border-radius:999px;
+    font-size:12.5px;font-weight:700;color:var(--blue);transition:background .2s,transform .15s;flex-shrink:0;
+  }
+  .pw-mini-btn:hover{background:var(--gradient-soft);}
+  .pw-mini-btn:active{transform:scale(0.96);}
+
+  .pw-tip-card{background:var(--gradient-soft);border-radius:16px;padding:18px;text-align:center;margin-bottom:16px;}
+  .pw-tip-icon{font-size:26px;margin-bottom:8px;}
+  .pw-tip-card p{font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.6;}
+
+  .pw-progress-note{font-size:12.5px;color:var(--ink-faint);text-align:center;line-height:1.6;}
+
+  /* ===================== MODULE 2: MATCH THE COLUMN ===================== */
+  .match-top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
+  .match-score-badge{background:var(--gradient-soft);color:var(--blue-dark);font-weight:700;font-size:14px;padding:9px 18px;border-radius:999px;}
+  .match-instruction{text-align:center;color:var(--ink-soft);font-size:13.5px;margin-bottom:30px;}
+
+  .match-board{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:920px;margin:0 auto;}
+  .match-col{display:flex;flex-direction:column;gap:14px;}
+
+  .match-chip{
+    background:#fff;border:2px solid rgba(45,91,255,0.14);border-radius:16px;padding:16px 14px;
+    font-weight:700;font-size:15px;color:var(--ink);box-shadow:var(--shadow-sm);
+    cursor:grab;user-select:none;touch-action:none;
+    transition:transform .15s,box-shadow .15s,opacity .25s,border-color .2s;
+    text-align:center;
+  }
+  .match-chip:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+  .match-chip.selected{border-color:var(--blue);box-shadow:0 0 0 4px rgba(45,91,255,0.15);}
+  .match-chip.dragging{z-index:1500;cursor:grabbing;box-shadow:var(--shadow-lg);opacity:0.96;}
+  .match-chip.matched{display:none;}
+  .match-chip.wrong-shake{animation:matchShake .4s ease;}
+  @keyframes matchShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+
+  .match-zone{
+    background:var(--bg-soft);border:2px dashed rgba(45,91,255,0.25);border-radius:16px;
+    padding:16px 14px;font-weight:600;font-size:14px;color:var(--ink-soft);text-align:center;
+    min-height:54px;display:flex;align-items:center;justify-content:center;
+    transition:background .2s,border-color .2s,transform .15s;
+  }
+  .match-zone.hover-target{border-color:var(--blue);background:rgba(45,91,255,0.08);transform:scale(1.03);}
+  .match-zone.filled{background:rgba(46,217,166,0.12);border:2px solid var(--success);color:#179b78;font-weight:700;}
+  .match-zone.wrong-flash{animation:matchZoneFlash .5s ease;}
+  @keyframes matchZoneFlash{0%,100%{background:var(--bg-soft);}40%{background:rgba(255,84,112,0.18);border-color:var(--danger);}}
+
+  @media (max-width:480px){
+    .match-board{gap:10px;}
+    .match-chip,.match-zone{padding:11px 8px;font-size:12.5px;min-height:46px;}
+  }
+
+  .match-complete-banner{
+    margin-top:28px;text-align:center;background:rgba(46,217,166,0.12);border:2px solid var(--success);
+    color:#179b78;font-weight:700;font-size:16px;padding:18px;border-radius:18px;
+    max-width:920px;margin-left:auto;margin-right:auto;
+  }
+
+  /* ===================== MODULE 3: TRUE/FALSE QUIZ ===================== */
+  .success-box{
+    background:rgba(46,217,166,0.10);border-left:3px solid var(--success);border-radius:10px;
+    padding:13px 16px;font-size:13.5px;color:var(--ink);margin:14px 0;
+  }
+
+  .tf-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:10px;max-width:680px;margin-left:auto;margin-right:auto;}
+  .tf-progress{font-size:13px;font-weight:700;color:var(--ink-soft);}
+  .tf-progress-track{height:8px;border-radius:999px;background:var(--bg-soft);overflow:hidden;margin-bottom:30px;max-width:680px;margin-left:auto;margin-right:auto;}
+  .tf-progress-fill{height:100%;background:var(--gradient-main);border-radius:999px;transition:width .4s ease;width:0%;}
+
+  .tf-quiz-card{max-width:680px;margin:0 auto;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:32px 28px;}
+  .tf-question-num{font-size:12.5px;font-weight:700;color:var(--cyan);margin-bottom:10px;display:block;}
+  .tf-question-text{font-size:18px;font-weight:700;color:var(--ink);line-height:1.6;margin-bottom:26px;}
+
+  .tf-options{display:flex;gap:14px;margin-bottom:6px;}
+  .tf-option-btn{
+    flex:1;padding:16px;border-radius:16px;border:2px solid rgba(45,91,255,0.14);background:var(--bg-soft);
+    font-weight:700;font-size:16px;color:var(--ink);transition:transform .15s,border-color .2s,background .2s;
+  }
+  .tf-option-btn:hover:not(:disabled){transform:translateY(-2px);}
+  .tf-option-btn.tf-true-btn:hover:not(:disabled){border-color:var(--success);background:rgba(46,217,166,0.07);}
+  .tf-option-btn.tf-false-btn:hover:not(:disabled){border-color:var(--danger);background:rgba(255,84,112,0.06);}
+  .tf-option-btn:disabled{cursor:default;}
+  .tf-option-btn.correct-pick{background:rgba(46,217,166,0.16);border-color:var(--success);color:#179b78;}
+  .tf-option-btn.wrong-pick{background:rgba(255,84,112,0.12);border-color:var(--danger);color:#c43a55;}
+  .tf-option-btn.dim{opacity:0.45;}
+
+  .tf-retry-block{margin-top:18px;}
+  .tf-retry-label{font-size:13.5px;font-weight:700;color:var(--danger);margin-bottom:10px;}
+  .tf-retry-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .tf-retry-input{flex:1;min-width:140px;padding:13px 16px;border-radius:12px;border:2px solid rgba(255,84,112,0.3);font-size:15px;font-family:var(--font-body);background:#fff;}
+  .tf-retry-input:focus{outline:none;border-color:var(--danger);}
+  .tf-retry-error{font-size:12.5px;color:var(--danger);margin-top:8px;font-weight:600;}
+
+  .tf-next-btn{margin-top:22px;width:100%;}
+
+  .tf-result-card{max-width:560px;margin:0 auto;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:44px 32px;text-align:center;}
+  .tf-result-icon{font-size:54px;margin-bottom:14px;}
+  .tf-result-score{font-family:var(--font-display);font-size:34px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .tf-result-percent{font-size:14px;color:var(--ink-soft);margin-bottom:22px;}
+
+  @media (max-width:480px){
+    .tf-quiz-card{padding:24px 18px;}
+    .tf-question-text{font-size:16px;}
+    .tf-options{flex-direction:column;}
+  }
+
+  /* ===================== MODULE 4: CYBER THREAT IDENTIFICATION ===================== */
+  .ct-scenario-box{
+    background:var(--bg-soft);border-radius:16px;padding:18px 20px;margin-bottom:22px;
+    border-left:4px solid var(--purple);font-size:14.5px;color:var(--ink);line-height:1.8;font-style:italic;
+  }
+  .ct-scenario-icon{font-size:22px;margin-bottom:8px;display:block;font-style:normal;}
+
+  .ct-question-label{font-weight:700;font-size:15.5px;color:var(--ink);margin-bottom:16px;}
+
+  .ct-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media (max-width:480px){.ct-options-grid{grid-template-columns:1fr;}}
+
+  .ct-option-btn{
+    padding:15px 14px;border-radius:14px;border:2px solid rgba(45,91,255,0.14);background:var(--bg-soft);
+    font-weight:700;font-size:14px;color:var(--ink);text-align:center;transition:transform .15s,border-color .2s,background .2s;
+  }
+  .ct-option-btn:hover:not(:disabled){transform:translateY(-2px);border-color:var(--blue);}
+  .ct-option-btn:disabled{cursor:default;}
+  .ct-option-btn.correct-pick{background:rgba(46,217,166,0.16);border-color:var(--success);color:#179b78;}
+  .ct-option-btn.wrong-pick{background:rgba(255,84,112,0.12);border-color:var(--danger);color:#c43a55;}
+  .ct-option-btn.dim{opacity:0.4;}
+
+  /* ===================== MODULE 5: SAFE OR UNSAFE DECISION GAME ===================== */
+  .su-play-area{max-width:520px;margin:0 auto;}
+  .su-stage{position:relative;display:flex;justify-content:center;margin-bottom:26px;}
+  .su-card{
+    width:100%;max-width:440px;min-height:160px;background:#fff;border-radius:24px;
+    border:2px solid rgba(45,91,255,0.12);box-shadow:var(--shadow-lg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    padding:30px 26px;cursor:grab;user-select:none;touch-action:none;
+  }
+  .su-card:active{cursor:grabbing;}
+  .su-card-icon{font-size:40px;margin-bottom:14px;}
+  .su-card-text{font-size:17px;font-weight:700;color:var(--ink);line-height:1.6;}
+  .su-card.su-card-correct{border-color:var(--success);}
+  .su-card.su-card-wrong{border-color:var(--danger);}
+
+  .su-buttons{display:flex;gap:14px;max-width:440px;margin:0 auto 6px;}
+  .su-btn{
+    flex:1;padding:16px;border-radius:16px;border:2px solid rgba(45,91,255,0.14);background:var(--bg-soft);
+    font-weight:700;font-size:15.5px;color:var(--ink);transition:transform .15s,border-color .2s,background .2s;
+  }
+  .su-btn:hover:not(:disabled){transform:translateY(-2px);}
+  .su-btn-safe:hover:not(:disabled){border-color:var(--success);background:rgba(46,217,166,0.08);color:#179b78;}
+  .su-btn-unsafe:hover:not(:disabled){border-color:var(--danger);background:rgba(255,84,112,0.07);color:#c43a55;}
+  .su-btn:disabled{cursor:default;}
+  .su-btn.correct-pick{background:rgba(46,217,166,0.16);border-color:var(--success);color:#179b78;}
+  .su-btn.wrong-pick{background:rgba(255,84,112,0.12);border-color:var(--danger);color:#c43a55;}
+
+  @media (max-width:480px){
+    .su-card{padding:24px 18px;min-height:140px;}
+    .su-card-text{font-size:15px;}
+  }
+
+  /* ===================== MODULE 6: THREAT VS PROTECTION SORTING GAME ===================== */
+  .srt-pool{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:920px;margin:0 auto 30px;min-height:60px;}
+
+  .srt-board{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:920px;margin:0 auto;}
+  @media (max-width:700px){.srt-board{grid-template-columns:1fr;}}
+
+  .srt-zone{
+    background:var(--bg-soft);border:2px dashed rgba(45,91,255,0.22);border-radius:18px;
+    padding:16px;min-height:170px;transition:background .2s,border-color .2s,transform .15s;
+  }
+  .srt-zone.hover-target{border-color:var(--blue);background:rgba(45,91,255,0.08);transform:scale(1.02);}
+  .srt-zone.wrong-flash{animation:matchZoneFlash .5s ease;}
+  .srt-zone.zone-pulse{animation:zonePulse .4s ease;}
+  @keyframes zonePulse{0%{transform:scale(1);}50%{transform:scale(1.03);box-shadow:0 0 0 6px rgba(46,217,166,0.18);}100%{transform:scale(1);}}
+
+  .srt-zone-header{font-weight:700;font-size:13.5px;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .srt-zone-count{font-size:11.5px;font-weight:700;color:var(--ink-faint);background:#fff;padding:3px 9px;border-radius:999px;flex-shrink:0;}
+  .srt-zone-body{display:flex;flex-direction:column;gap:8px;margin-top:12px;min-height:40px;}
+
+  .srt-placed-tag{
+    background:rgba(46,217,166,0.14);color:#179b78;border:1px solid rgba(46,217,166,0.3);
+    border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:700;
+    animation:tagPop .3s ease;
+  }
+  @keyframes tagPop{0%{transform:scale(0.85);opacity:0;}100%{transform:scale(1);opacity:1;}}
+
+  /* ===================== MODULE 7: TROUBLESHOOTING SIMULATOR ===================== */
+  .learn-note-box{
+    background:rgba(155,123,255,0.08);border-left:3px solid var(--purple);border-radius:10px;
+    padding:13px 16px;font-size:13px;color:var(--ink);margin:10px 0 0;
+  }
+
+  .ts-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:34px;flex-wrap:wrap;}
+  .ts-tab-btn{
+    padding:12px 22px;border-radius:999px;border:2px solid rgba(45,91,255,0.14);background:#fff;
+    font-weight:700;font-size:13.5px;color:var(--ink-soft);transition:transform .15s,background .2s,color .2s,border-color .2s;
+  }
+  .ts-tab-btn.active{background:var(--gradient-main);color:#fff;border-color:transparent;box-shadow:var(--shadow-sm);}
+  .ts-tab-btn:hover:not(.active){border-color:var(--blue);color:var(--blue);}
+
+  .ts-tab-panel{display:none;}
+  .ts-tab-panel.active{display:block;}
+
+  .ts-tree-card{max-width:600px;margin:0 auto;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:32px 26px;}
+  .ts-tree-breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-bottom:20px;justify-content:center;}
+  .ts-tree-crumb{font-size:15px;background:var(--bg-soft);padding:6px 11px;border-radius:10px;}
+  .ts-tree-crumb.crumb-arrow{background:none;padding:0 2px;color:var(--ink-faint);font-size:13px;}
+
+  .ts-tree-icon{font-size:38px;text-align:center;display:block;margin-bottom:14px;}
+  .ts-tree-text{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.7;text-align:center;margin-bottom:22px;}
+  .ts-tree-options{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  .ts-tree-opt-btn{
+    padding:13px 22px;border-radius:14px;border:2px solid rgba(45,91,255,0.16);background:var(--bg-soft);
+    font-weight:700;font-size:14px;color:var(--blue-dark);transition:transform .15s,background .2s;
+  }
+  .ts-tree-opt-btn:hover{transform:translateY(-2px);background:var(--gradient-soft);}
+  .ts-tree-restart-btn{display:block;margin:18px auto 0;}
+
+  /* ===================== FINAL ASSESSMENT PAGE ===================== */
+  .final-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:980px;margin:0 auto 50px;}
+  @media (max-width:860px){.final-stats-grid{grid-template-columns:repeat(2,1fr);}}
+  .final-stat-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:26px 20px;text-align:center;}
+  .final-stat-icon{font-size:30px;display:block;margin-bottom:10px;}
+  .final-stat-value{font-family:var(--font-display);font-size:23px;font-weight:700;color:var(--ink);}
+  .final-stat-label{font-size:12px;color:var(--ink-faint);font-weight:600;margin-top:4px;}
+
+  .final-section-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:18px;text-align:center;}
+  .final-badge-section,.final-module-breakdown,.final-cert-section{max-width:780px;margin:0 auto 50px;}
+
+  .final-badge-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+  .final-badge-card{
+    flex:1;min-width:150px;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);
+    padding:22px 16px;text-align:center;border:2px solid transparent;opacity:0.45;transition:all .25s;
+  }
+  .final-badge-card.earned{opacity:1;border-color:var(--success);}
+  .final-badge-card.current{border-color:var(--blue);box-shadow:var(--shadow-lg);transform:translateY(-4px);}
+  .final-badge-icon{font-size:36px;display:block;margin-bottom:8px;}
+  .final-badge-label{font-weight:700;font-size:13px;color:var(--ink);}
+  .final-badge-sublabel{font-size:11px;color:var(--ink-faint);margin-top:2px;}
+
+  .final-module-list{display:flex;flex-direction:column;gap:10px;}
+  .final-module-item{display:flex;align-items:center;gap:14px;background:#fff;border-radius:14px;padding:13px 18px;box-shadow:var(--shadow-sm);}
+  .final-module-item .fm-icon{font-size:20px;flex-shrink:0;}
+  .final-module-item .fm-name{flex:1;font-weight:700;font-size:13px;color:var(--ink);}
+  .final-module-item .fm-points{font-size:12px;font-weight:700;color:var(--ink-faint);}
+  .final-module-item .fm-status{font-size:16px;flex-shrink:0;}
+
+  .cert-name-input-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:24px;}
+  .cert-name-input-row label{font-size:13px;font-weight:700;color:var(--ink-soft);}
+  .cert-name-input{padding:10px 16px;border-radius:10px;border:2px solid rgba(45,91,255,0.16);font-size:14px;font-family:var(--font-body);min-width:220px;}
+  .cert-name-input:focus{outline:none;border-color:var(--blue);}
+
+  .cert-card{
+    position:relative;background:#fff;border-radius:20px;padding:42px 30px;text-align:center;
+    border:3px solid var(--blue);box-shadow:var(--shadow-lg);
+    background-image:linear-gradient(135deg, rgba(45,91,255,0.04), rgba(155,123,255,0.04));
+  }
+  .cert-card::before,.cert-card::after{content:'';position:absolute;width:36px;height:36px;border:3px solid var(--cyan);opacity:0.5;}
+  .cert-card::before{top:8px;left:8px;border-right:none;border-bottom:none;}
+  .cert-card::after{bottom:8px;right:8px;border-left:none;border-top:none;}
+  .cert-seal{font-size:44px;margin-bottom:10px;display:block;}
+  .cert-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .cert-subtitle{font-size:12px;color:var(--ink-faint);letter-spacing:0.05em;margin-bottom:26px;text-transform:uppercase;}
+  .cert-presented{font-size:13px;color:var(--ink-soft);margin-bottom:8px;}
+  .cert-name{font-family:var(--font-display);font-size:27px;font-weight:700;color:var(--blue-dark);margin-bottom:18px;border-bottom:2px solid rgba(45,91,255,0.15);display:inline-block;padding-bottom:6px;min-width:200px;}
+  .cert-course{font-size:14px;color:var(--ink);line-height:1.8;margin-bottom:18px;}
+  .cert-course strong{color:var(--blue-dark);}
+  .cert-meta-row{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin-top:18px;font-size:12px;color:var(--ink-faint);}
+  .cert-meta-row strong{color:var(--ink);}
+  .cert-print-btn{display:block;margin:24px auto 0;}
+
+  @media print{
+    body *{visibility:hidden;}
+    #certCard,#certCard *{visibility:visible;}
+    #certCard{position:absolute;top:0;left:0;width:100%;}
+  }
+
+  /* ===================== FOOTER ===================== */
+  footer{
+    background:var(--ink);color:rgba(255,255,255,0.75);padding:34px 0;text-align:center;font-size:13px;
+  }
+  footer strong{color:#fff;}
+  footer .credit{margin-top:6px;font-size:12px;color:rgba(255,255,255,0.5);}
+
+  /* ===================== TOAST & CONFETTI (shared utilities for future modules) ===================== */
+  #toast-container{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2000;display:flex;flex-direction:column;gap:10px;align-items:center;}
+  .toast{
+    background:var(--ink);color:#fff;padding:13px 22px;border-radius:999px;font-size:13.5px;font-weight:600;
+    box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px;
+    animation:toastIn .3s ease;
+  }
+  .toast.success{background:#179b78;}
+  .toast.error{background:#c43a55;}
+  @keyframes toastIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+  #confetti-container{position:fixed;inset:0;pointer-events:none;z-index:1900;overflow:hidden;}
+  .confetti-piece{position:absolute;top:-10px;border-radius:2px;animation:confettiFall linear forwards;}
+  @keyframes confettiFall{to{transform:translateY(110vh) rotate(540deg);opacity:0.4;}}
+</style>
+</head>
+<body>
+
+<!-- ===================== LOADING SCREEN ===================== -->
+<div id="loadingScreen">
+  <span class="loading-icon">🛡️</span>
+  <div class="loading-text">শিক্ষণ প্ল্যাটফর্ম লোড হচ্ছে...</div>
+  <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+</div>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#" class="brand" data-page="home">
+      <span class="brand-badge">🛡️</span>
+      <span class="brand-text">কম্পিউটার রক্ষণাবেক্ষণ ও সাইবার নিরাপত্তা<small>শিক্ষণ প্ল্যাটফর্ম</small></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <!-- populated by JS -->
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="থিম পরিবর্তন করুন" title="লাইট/ডার্ক মোড">☀️</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="মেনু খুলুন">☰</button>
+  </div>
+</nav>
+
+<div class="nav-drawer-overlay" id="drawerOverlay">
+  <div class="nav-drawer">
+    <button class="nav-drawer-close" id="drawerClose" aria-label="মেনু বন্ধ করুন">✕</button>
+    <ul id="navLinksMobile" style="display:flex;flex-direction:column;gap:4px;"></ul>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<div id="confetti-container"></div>
+
+<main>
+
+  <!-- ===================== HOME PAGE ===================== -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-orb"></div>
+      <span class="float-icon fi-1">🛡️</span>
+      <span class="float-icon fi-2">🔒</span>
+      <span class="float-icon fi-3">💻</span>
+      <span class="float-icon fi-4">🦠</span>
+      <div class="container hero-inner">
+        <span class="eyebrow aos aos-scale">📘 আইসিটি অধ্যায় ২ &nbsp;|&nbsp; নবম-দশম শ্রেণি</span>
+        <h1 class="aos">কম্পিউটার রক্ষণাবেক্ষণ ও সাইবার নিরাপত্তা শিক্ষণ প্ল্যাটফর্ম</h1>
+        <p class="subtitle aos" style="transition-delay:.1s">খেলার মাধ্যমে শিখুন কম্পিউটার রক্ষণাবেক্ষণ, তথ্য নিরাপত্তা এবং সাইবার সচেতনতা</p>
+        <div class="hero-actions aos" style="transition-delay:.2s">
+          <button class="btn btn-ghost" data-page="password">🚀 শেখা শুরু করুন</button>
+          <button class="btn btn-ghost" style="background:rgba(255,255,255,0.15);color:#fff;box-shadow:none;border:1.5px solid rgba(255,255,255,0.5);" data-page="summary">📖 অধ্যায়ের সারাংশ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container stats-bar">
+      <div class="stats-card glass-card aos" style="transition-delay:.15s">
+        <div class="stat-item">
+          <span class="stat-icon b1">📚</span>
+          <div><div class="stat-value">৭</div><div class="stat-label">মোট মডিউল</div></div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon b2">✅</span>
+          <div><div class="stat-value" id="statCompleted">০/৭</div><div class="stat-label">সম্পন্ন মডিউল</div></div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon b3">🏆</span>
+          <div><div class="stat-value" id="statScore">০ / ৬২০</div><div class="stat-label">মোট স্কোর</div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label"><span>সামগ্রিক অগ্রগতি</span><span id="progressPercentLabel">০%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="ref-card glass-card aos">
+        <span class="ref-icon">📖</span>
+        <div class="ref-text">
+          <h3>অধ্যায়ের সারাংশ পড়ুন</h3>
+          <p>খেলা শুরু করার আগে পুরো অধ্যায়ের মূল বিষয়বস্তু সংক্ষেপে দেখে নিন</p>
+        </div>
+        <span class="tag tag-ready">✅ প্রস্তুত</span>
+        <button class="btn btn-primary" data-page="summary" style="padding:11px 22px;font-size:13.5px;">পড়ুন</button>
+      </div>
+
+      <div class="section-head">
+        <span class="kicker">লেভেল ১ — ৭</span>
+        <h2>শেখার মডিউলসমূহ</h2>
+        <p>একটি একটি মডিউল খেলুন, পয়েন্ট সংগ্রহ করুন এবং সাইবার বিশেষজ্ঞ হয়ে উঠুন</p>
+      </div>
+
+      <div class="module-grid stagger-parent" id="moduleGrid">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHAPTER SUMMARY PAGE ===================== -->
+  <section class="page" id="page-summary">
+    <div class="page-header">
+      <div class="container">
+        <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+        <h1>📖 অধ্যায়ের সারাংশ</h1>
+        <p>"কম্পিউটার রক্ষণাবেক্ষণ ও সাইবার নিরাপত্তা" অধ্যায়ের মূল বিষয়গুলো একনজরে দেখে নিন। যেকোনো বিভাগে ক্লিক করে বিস্তারিত পড়ুন।</p>
+      </div>
+    </div>
+    <div class="container" style="padding:44px 20px 90px;">
+      <div class="accordion stagger-parent" id="summaryAccordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger">
+            <span class="acc-num">১</span>
+            <span class="acc-title">কম্পিউটার রক্ষণাবেক্ষণ</span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-body">
+              <p>কম্পিউটার হার্ডওয়্যার ও সফটওয়্যারের সমন্বিত রূপ। দীর্ঘস্থায়ী সেবা পেতে এটিকে নিয়মিত পরিচর্যা করতে হয় এবং আর্দ্রতা, তাপ, ধুলা ও চৌম্বকীয় পদার্থ থেকে দূরে রাখতে হয় — সাথে বৈদ্যুতিক শকের ঝুঁকি কমাতে আর্থিং (Earthing) থাকা জরুরি।</p>
+              <p><strong>রক্ষণাবেক্ষণ দুই প্রকার:</strong></p>
+              <ul>
+                <li><strong>প্রতিরোধমূলক (Preventive):</strong> সমস্যা হওয়ার আগেই সতর্কতা — ভাইরাস স্ক্যান, ডিস্ক ক্লিনআপ, ডিফ্র্যাগমেন্টেশন, আপডেট। ব্যবহারকারী নিজেই করতে পারেন।</li>
+                <li><strong>সংশোধনমূলক (Corrective):</strong> সমস্যা হওয়ার পর মেরামত বা পার্টস পরিবর্তন — সাধারণত টেকনিশিয়ানের সাহায্য লাগে।</li>
+              </ul>
+              <p><strong>সফটওয়্যার দিয়ে কম্পিউটার সচল রাখার উপায়:</strong></p>
+              <ul>
+                <li>অপারেটিং সিস্টেম নিয়মিত আপডেট রাখা</li>
+                <li>রেজিস্ট্রি ক্লিনআপ সফটওয়্যার ব্যবহার</li>
+                <li>টেম্পোরারি ফাইল ও ক্যাশ মেমোরি পরিষ্কার করা</li>
+                <li>আপডেটেড অ্যান্টিভাইরাস / অ্যান্টিম্যালওয়্যার ব্যবহার</li>
+                <li>ডিস্ক ক্লিনআপ ও ডিস্ক ডিফ্র্যাগমেন্টার চালানো</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger">
+            <span class="acc-num">২</span>
+            <span class="acc-title">সফটওয়্যার ইনস্টল, আনইনস্টল ও ডিলিট</span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-body">
+              <p><strong>ইনস্টলের আগে যা দেখতে হবে:</strong> হার্ডওয়্যার সাপোর্ট করে কিনা, 'Read me' ফাইল পড়া, অন্য কাজ বন্ধ রাখা, প্রয়োজনে অ্যান্টিভাইরাস সাময়িক বন্ধ রাখা এবং Administrator অনুমতি থাকা।</p>
+              <p><strong>আনইনস্টল করার নিয়ম:</strong></p>
+              <ul>
+                <li><strong>Windows:</strong> Start → Control Panel → Programs/Uninstall a program → সফটওয়্যার সিলেক্ট → Uninstall</li>
+                <li><strong>Android:</strong> Settings → Applications → অ্যাপ নির্বাচন → Uninstall</li>
+              </ul>
+              <div class="info-box">⚠️ শুধু আনইনস্টল করলে রেজিস্ট্রিতে কিছু অংশ থেকে যায়! সম্পূর্ণ ডিলিট করতে: আনইনস্টল → <code>Windows+R</code> → <code>regedit</code> → File → Export (ব্যাকআপ) → Ctrl+F দিয়ে নাম খুঁজে Delete → F3 চেপে বাকি সব খুঁজে মুছে দিতে হবে।</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger">
+            <span class="acc-num">৩</span>
+            <span class="acc-title">তথ্যের নিরাপত্তা ও সাইবার ঝুঁকি</span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-body">
+              <p>তথ্য দুই প্রকার — <strong>উন্মুক্ত তথ্য</strong> (সবার প্রবেশাধিকার থাকে) এবং <strong>গোপনীয় তথ্য</strong> (অনুমোদিত ব্যক্তি/সংস্থার মধ্যে সীমাবদ্ধ; অনুমতি ছাড়া প্রকাশ আইনত দণ্ডনীয়)।</p>
+              <p><strong>প্রধান সাইবার অপরাধ ও ঝুঁকি:</strong></p>
+              <ul>
+                <li><strong>হ্যাকিং:</strong> অনুমতি ছাড়া সিস্টেমে প্রবেশ — White Hat (বৈধ পরীক্ষা) বনাম Black Hat/Cracker (অবৈধ ক্ষতি)</li>
+                <li><strong>ব্রুট ফোর্স অ্যাটাক:</strong> ট্রায়াল-অ্যান্ড-এরর পদ্ধতিতে পাসওয়ার্ড অনুমান করে প্রবেশের চেষ্টা</li>
+                <li><strong>ডেটা ইন্টারসেপশন:</strong> আদান-প্রদানের সময় আড়ি পেতে তথ্য চুরি — প্রতিরোধে এন্ড-টু-এন্ড এনক্রিপশন</li>
+                <li><strong>DDoS অ্যাটাক:</strong> একাধিক ডিভাইস থেকে কৃত্রিম ট্র্যাফিক পাঠিয়ে সার্ভার ডাউন করা</li>
+                <li><strong>ম্যালওয়্যার:</strong> ক্ষতি করার জন্য তৈরি সফটওয়্যার (ভাইরাস, ওয়ার্ম, ট্রোজান, স্পাইওয়্যার, র‍্যানসমওয়্যার) — অনিচ্ছাকৃত কোডিং ভুলকে বলে সফটওয়্যার বাগ, ম্যালওয়্যার নয়</li>
+                <li><strong>সাইবার বুলিং ও ফেইক নিউজ:</strong> অনলাইনে হেনস্তা/হুমকি এবং বিভ্রান্তিকর মিথ্যা সংবাদ ছড়ানো</li>
+              </ul>
+              <div class="danger-box">⚖️ বাংলাদেশের আইসিটি আইন অনুযায়ী সাইবার বুলিং বা ফেইক নিউজ ছড়ানোর সাজা — সর্বোচ্চ ১০ বছর কারাদণ্ড বা ১ কোটি টাকা অর্থদণ্ড অথবা উভয়ই।</div>
+              <p><strong>আক্রমণের শিকার হলে যা করতে হবে:</strong></p>
+              <div class="pill-row">
+                <span class="pill">📞 হেল্পলাইন ১০৯</span>
+                <span class="pill">🚨 জরুরি সেবা ৯৯৯</span>
+                <span class="pill">🌐 rab.gov.bd</span>
+                <span class="pill">📱 Hello CT অ্যাপ</span>
+                <span class="pill">🏛️ BTRC অভিযোগ</span>
+                <span class="pill">📝 gd.police.gov.bd</span>
+              </div>
+              <p><strong>নিরাপত্তা কৌশল:</strong> 2FA চালু করা, প্রতিটি প্ল্যাটফর্মে আলাদা শক্তিশালী পাসওয়ার্ড, সফটওয়্যার আপডেট রাখা, গোপনীয় তথ্য শেয়ার না করা, অ্যান্টিভাইরাস ও ফায়ারওয়াল সক্রিয় রাখা।</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger">
+            <span class="acc-num">৪</span>
+            <span class="acc-title">কম্পিউটার ও ইন্টারনেট আসক্তি</span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-body">
+              <p>আসক্তি হলো এমন অবস্থা যেখানে ক্ষতিকর জেনেও কেউ কোনো কাজ থেকে নিজেকে বিরত রাখতে পারে না। কম্পিউটার গেম ও সোশ্যাল মিডিয়া এর বড় কারণ।</p>
+              <ul>
+                <li>সপ্তাহে ৬ দিন, দৈনিক ১০ ঘণ্টা একটানা ব্যবহারে মস্তিষ্কের গঠনেও পরিবর্তন আসতে পারে বলে গবেষণা বলছে।</li>
+                <li>সোশ্যাল মিডিয়ার ব্যবসায়িক সাফল্য নির্ভর করে ব্যবহারকারীকে কতটা সময় স্ক্রিনে ধরে রাখা যায় তার ওপর — এটি মানুষের নার্সিসিজম (আত্মমুগ্ধতা) প্রবৃত্তিকে কাজে লাগায়।</li>
+              </ul>
+              <p><strong>মুক্তির উপায়:</strong> আসক্তি স্বীকার করা, পড়াশোনা/খেলাধুলা/পরিবারের জন্য সময় ভাগ করা, অপ্রয়োজনীয় বন্ধু তালিকা ছাঁটাই করা, পরীক্ষার সময় অ্যাকাউন্ট ডিঅ্যাক্টিভেট রাখা।</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger">
+            <span class="acc-num">৫</span>
+            <span class="acc-title">পাইরেসি ও কপিরাইট আইন</span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-body">
+              <p>কপিরাইট হোল্ডারের অনুমতি ছাড়া সফটওয়্যার বা সৃজনশীল কাজ নকল করাকে সফটওয়্যার পাইরেসি বলে — বাংলাদেশে এটি সম্পূর্ণ নিষিদ্ধ। বিশ্বব্যাপী নজরদারির জন্য রয়েছে BSA (Business Software Alliance)।</p>
+              <p>কপিরাইট আইন স্রষ্টাকে নির্দিষ্ট সময়ের জন্য তার সৃষ্টির ওপর মেধাস্বত্ব দেয়, যা নতুন সৃষ্টিকর্মে উৎসাহ দেয় এবং আর্থিক সুফল নিশ্চিত করে।</p>
+              <div class="info-box">📜 "তথ্য অধিকার আইন ২০০৯" জনগণের তথ্য পাওয়ার অধিকার নিশ্চিত করে, তবে রাষ্ট্রীয় নিরাপত্তা সংক্রান্ত তথ্য (যেমন প্রশ্নপত্র, সামরিক তথ্য) এই আইনের আওতার বাইরে।</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger">
+            <span class="acc-num">৬</span>
+            <span class="acc-title">সাধারণ ট্রাবলশ্যুটিং</span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-body">
+              <p>ট্রাবলশ্যুটিং হলো সমস্যার উৎস খুঁজে সমাধান করার প্রক্রিয়া। কিছু সাধারণ সমস্যা:</p>
+              <ul>
+                <li><strong>সিস্টেম চালু না হওয়া:</strong> পাওয়ার ক্যাবল ও PSU চেক করুন</li>
+                <li><strong>ডিসপ্লে না আসা:</strong> ডেটা ক্যাবল ও র‍্যাম পরিষ্কার করে দেখুন</li>
+                <li><strong>অতিরিক্ত গরম হওয়া:</strong> কুলিং ফ্যান ও হিটসিংক থেকে ধুলা পরিষ্কার করুন</li>
+                <li><strong>তারিখ/সময় ঠিক না থাকা:</strong> CMOS ব্যাটারি পরিবর্তন করুন</li>
+                <li><strong>Hard Disk Not Found:</strong> ক্যাবল সংযোগ ও BIOS অটো-ডিটেক্ট চেক করুন</li>
+              </ul>
+              <p>📌 সম্পূর্ণ ১৪টি সমস্যা ও সমাধানের ইন্টারেক্টিভ সিমুলেশন পাবেন <strong>"সমস্যা সমাধান"</strong> মডিউলে।</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MODULE PLACEHOLDER PAGES (to be built in next parts) ===================== -->
+
+  <!-- MODULE_PASSWORD_START -->
+  <section class="page" id="page-password">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>🔐 পাসওয়ার্ড পরীক্ষক</h1>
+      <p>তথ্যের নিরাপত্তা ও পাসওয়ার্ড সুরক্ষা শিখুন — নিচে আপনার পাসওয়ার্ড লিখে শক্তি যাচাই করুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+      <div class="pw-layout">
+
+        <div class="pw-main-card">
+          <label class="pw-label" for="pwInput">আপনার পাসওয়ার্ড লিখুন</label>
+          <div class="pw-input-wrap">
+            <input type="password" id="pwInput" class="pw-input" placeholder="যেমন: abid123" autocomplete="off" />
+            <button type="button" class="pw-toggle-eye" id="pwToggleEye" aria-label="পাসওয়ার্ড দেখান">👁️</button>
+          </div>
+
+          <div class="pw-meter-block">
+            <div class="pw-meter-top">
+              <span class="pw-strength-badge" id="pwBadge">🔘 লিখুন</span>
+              <span class="pw-score-label" id="pwScoreLabel"></span>
+            </div>
+            <div class="pw-meter-track"><div class="pw-meter-fill" id="pwMeterFill"></div></div>
+          </div>
+
+          <ul class="pw-criteria" id="pwCriteria"></ul>
+
+          <div class="danger-box" id="pwWarning" style="display:none;">
+            ⚠️ আপনার পাসওয়ার্ড দুর্বল! দুর্বল পাসওয়ার্ড Brute Force Attack-এর ঝুঁকি বাড়ায়।
+          </div>
+
+          <div class="pw-suggest-box">
+            <div class="pw-suggest-head">
+              <span>✨ শক্তিশালী পাসওয়ার্ডের উদাহরণ</span>
+              <button type="button" class="pw-mini-btn" id="pwRegenBtn">🔁 নতুন</button>
+            </div>
+            <div class="pw-suggest-row">
+              <code class="pw-suggest-code" id="pwSuggestCode">Abid@2026#ICT</code>
+              <button type="button" class="pw-mini-btn" id="pwCopyBtn">📋 কপি</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pw-side-card">
+          <div class="info-box" style="margin:0 0 16px;">
+            🛈 দুর্বল পাসওয়ার্ড Brute Force Attack-এর ঝুঁকি বাড়ায় — আক্রমণকারী ট্রায়াল অ্যান্ড এরর পদ্ধতিতে আপনার পাসওয়ার্ড অনুমান করার চেষ্টা করে।
+          </div>
+          <div class="pw-tip-card">
+            <div class="pw-tip-icon">💡</div>
+            <p id="pwTipText">টিপ লোড হচ্ছে...</p>
+            <button type="button" class="pw-mini-btn" id="pwTipBtn" style="margin-top:10px;">🔄 নতুন টিপ</button>
+          </div>
+          <div class="pw-progress-note" id="pwProgressNote"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- MODULE_PASSWORD_END -->
+
+  <!-- MODULE_MATCH_START -->
+  <section class="page" id="page-match">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>🔗 মিল করুন</h1>
+      <p>গুরুত্বপূর্ণ আইসিটি ধারণাগুলো শিখুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+      <div class="match-top-bar">
+        <div class="match-score-badge">🎯 স্কোর: <span id="matchScoreLabel">০/৫</span></div>
+        <button type="button" class="btn btn-ghost" id="matchRetryBtn" style="padding:10px 20px;font-size:13px;">🔄 আবার শুরু করুন</button>
+      </div>
+      <p class="match-instruction">💡 বাম পাশের শব্দটি টেনে ডান পাশের সঠিক সংজ্ঞার ওপর ছাড়ুন — অথবা শব্দে ট্যাপ করে তারপর সংজ্ঞায় ট্যাপ করুন</p>
+
+      <div class="match-board">
+        <div class="match-col" id="matchLeftCol"></div>
+        <div class="match-col" id="matchRightCol"></div>
+      </div>
+
+      <div class="match-complete-banner" id="matchCompleteBanner" style="display:none;">
+        🎉 অভিনন্দন! আপনার স্কোর: <span id="matchFinalScore">৫/৫</span>
+      </div>
+    </div>
+  </section>
+  <!-- MODULE_MATCH_END -->
+
+  <!-- MODULE_TRUEFALSE_START -->
+  <section class="page" id="page-truefalse">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>✅ সত্য/মিথ্যা কুইজ</h1>
+      <p>ধারণাগত বোধগম্যতা যাচাই করুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+      <div class="tf-top-bar">
+        <span class="tf-progress" id="tfProgress">প্রশ্ন ১ / ১৫</span>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button type="button" class="generate-quiz-btn" id="tfNewQuizBtn">🎲 নতুন প্রশ্ন তৈরি করুন</button>
+          <span class="match-score-badge">🎯 স্কোর: <span id="tfScoreLabel">০/১৫</span></span>
+        </div>
+      </div>
+      <div class="tf-progress-track"><div class="tf-progress-fill" id="tfProgressFill"></div></div>
+
+      <div class="tf-quiz-card glass-card aos" id="tfQuizCard"></div>
+      <div class="tf-result-card" id="tfResultCard" style="display:none;"></div>
+    </div>
+  </section>
+  <!-- MODULE_TRUEFALSE_END -->
+
+  <!-- MODULE_CYBERTHREAT_START -->
+  <section class="page" id="page-cyberthreat">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>🦠 সাইবার হুমকি চিনুন</h1>
+      <p>সাইবার হুমকি ও ঝুঁকি সম্পর্কে জানুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+      <div class="tf-top-bar">
+        <span class="tf-progress" id="ctProgress">দৃশ্যকল্প ১ / ১০</span>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button type="button" class="generate-quiz-btn" id="ctNewQuizBtn">🎲 নতুন দৃশ্যকল্প তৈরি করুন</button>
+          <span class="match-score-badge">🎯 স্কোর: <span id="ctScoreLabel">০/১০</span></span>
+        </div>
+      </div>
+      <div class="tf-progress-track"><div class="tf-progress-fill" id="ctProgressFill"></div></div>
+
+      <div class="tf-quiz-card glass-card aos" id="ctQuizCard"></div>
+      <div class="tf-result-card" id="ctResultCard" style="display:none;"></div>
+    </div>
+  </section>
+  <!-- MODULE_CYBERTHREAT_END -->
+
+  <!-- MODULE_SAFEUNSAFE_START -->
+  <section class="page" id="page-safeunsafe">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>🛡️ নিরাপদ নাকি অনিরাপদ</h1>
+      <p>নিরাপদ ইন্টারনেট ব্যবহার অভ্যাস শিখুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+      <div class="tf-top-bar">
+        <span class="tf-progress" id="suProgress">সিদ্ধান্ত ১ / ১০</span>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button type="button" class="generate-quiz-btn" id="suNewQuizBtn">🎲 নতুন সিদ্ধান্ত তৈরি করুন</button>
+          <span class="match-score-badge">🎯 স্কোর: <span id="suScoreLabel">০/১০</span></span>
+        </div>
+      </div>
+      <div class="tf-progress-track"><div class="tf-progress-fill" id="suProgressFill"></div></div>
+      <p class="match-instruction">💡 কার্ডটি ডানে সোয়াইপ করুন (নিরাপদ) বা বামে সোয়াইপ করুন (অনিরাপদ) — অথবা নিচের বাটনে ট্যাপ করুন</p>
+
+      <div class="su-play-area" id="suPlayArea">
+        <div class="su-stage">
+          <div class="su-card" id="suCard">
+            <span class="su-card-icon" id="suCardIcon">🧐</span>
+            <div class="su-card-text" id="suCardText"></div>
+          </div>
+        </div>
+        <div class="su-buttons">
+          <button type="button" class="su-btn su-btn-unsafe" id="suUnsafeBtn">🔴 অনিরাপদ</button>
+          <button type="button" class="su-btn su-btn-safe" id="suSafeBtn">🟢 নিরাপদ</button>
+        </div>
+        <div id="suDynamicArea"></div>
+      </div>
+
+      <div class="tf-result-card" id="suResultCard" style="display:none;"></div>
+    </div>
+  </section>
+  <!-- MODULE_SAFEUNSAFE_END -->
+
+  <!-- MODULE_SORTING_START -->
+  <section class="page" id="page-sorting">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>🦠🛡️ বাছাই খেলা</h1>
+      <p>সাইবার হুমকি ও সুরক্ষা পদ্ধতির পার্থক্য শিখুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+      <div class="match-top-bar">
+        <div class="match-score-badge">🎯 স্কোর: <span id="srtScoreLabel">০/১০</span></div>
+        <button type="button" class="btn btn-ghost" id="srtRetryBtn" style="padding:10px 20px;font-size:13px;">🔄 আবার শুরু করুন</button>
+      </div>
+      <p class="match-instruction">💡 প্রতিটি কার্ড টেনে এনে সঠিক বিভাগে ছাড়ুন — অথবা কার্ডে ট্যাপ করে তারপর বিভাগে ট্যাপ করুন</p>
+
+      <div class="srt-pool" id="srtPool"></div>
+
+      <div class="srt-board">
+        <div class="srt-zone" data-cat="threat" id="srtZoneThreat" tabindex="0">
+          <div class="srt-zone-header"><span>🦠 হুমকি (Threat)</span><span class="srt-zone-count" id="srtCount-threat">০/৪</span></div>
+          <div class="srt-zone-body" id="srtZoneThreatBody"></div>
+        </div>
+        <div class="srt-zone" data-cat="protection" id="srtZoneProtection" tabindex="0">
+          <div class="srt-zone-header"><span>🛡️ সুরক্ষা পদ্ধতি</span><span class="srt-zone-count" id="srtCount-protection">০/৩</span></div>
+          <div class="srt-zone-body" id="srtZoneProtectionBody"></div>
+        </div>
+        <div class="srt-zone" data-cat="practice" id="srtZonePractice" tabindex="0">
+          <div class="srt-zone-header"><span>👨‍💻 ভালো অভ্যাস</span><span class="srt-zone-count" id="srtCount-practice">০/৩</span></div>
+          <div class="srt-zone-body" id="srtZonePracticeBody"></div>
+        </div>
+      </div>
+
+      <div class="match-complete-banner" id="srtCompleteBanner" style="display:none;">
+        🎉 অভিনন্দন! আপনি সবগুলো কার্ড সঠিকভাবে সাজিয়েছেন!<br>
+        <span style="font-size:13px;font-weight:600;">🏅 অর্জিত ব্যাজ: সাইবার ক্লাসিফিকেশন এক্সপার্ট</span>
+      </div>
+    </div>
+  </section>
+  <!-- MODULE_SORTING_END -->
+
+  <!-- MODULE_TROUBLESHOOT_START -->
+  <section class="page" id="page-troubleshoot">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>🔧 সমস্যা সমাধান</h1>
+      <p>অধ্যায় অনুযায়ী ট্রাবলশুটিং দক্ষতা শিখুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+
+      <div class="ts-tabs">
+        <button type="button" class="ts-tab-btn active" data-tab="scenario" id="tsTabScenario">🎯 দৃশ্যকল্প অনুশীলন</button>
+        <button type="button" class="ts-tab-btn" data-tab="tree" id="tsTabTree">🌳 ডিসিশন ট্রি সিমুলেটর</button>
+      </div>
+
+      <div class="ts-tab-panel active" id="tsPanelScenario">
+        <div class="tf-top-bar">
+          <span class="tf-progress" id="tsProgress">সমস্যা ১ / ১০</span>
+          <span class="match-score-badge">🎯 স্কোর: <span id="tsScoreLabel">০/১০</span></span>
+        </div>
+        <div class="tf-progress-track"><div class="tf-progress-fill" id="tsProgressFill"></div></div>
+
+        <div class="tf-quiz-card glass-card aos" id="tsQuizCard"></div>
+        <div class="tf-result-card" id="tsResultCard" style="display:none;"></div>
+      </div>
+
+      <div class="ts-tab-panel" id="tsPanelTree" style="display:none;">
+        <p class="match-instruction">💡 প্রতিটি প্রশ্নের উত্তর দিয়ে সমস্যাটির মূল কারণ খুঁজে বের করুন</p>
+        <div class="ts-tree-card glass-card aos">
+          <div class="ts-tree-breadcrumb" id="tsTreeBreadcrumb"></div>
+          <div class="ts-tree-node" id="tsTreeNode"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- MODULE_TROUBLESHOOT_END -->
+
+  <!-- MODULE_FINAL_START -->
+  <section class="page" id="page-final">
+    <div class="page-header"><div class="container">
+      <a href="#" class="back-link" data-page="home">← হোমে ফিরে যান</a>
+      <h1>🏆 চূড়ান্ত ফলাফল</h1>
+      <p>সম্পূর্ণ অগ্রগতি, স্কোর এবং সার্টিফিকেট দেখুন</p>
+    </div></div>
+    <div class="container" style="padding:44px 20px 90px;">
+
+      <div class="final-stats-grid stagger-parent">
+        <div class="final-stat-card">
+          <span class="final-stat-icon">🏆</span>
+          <div class="final-stat-value" id="finalTotalScore">০ / ৬২০</div>
+          <div class="final-stat-label">মোট স্কোর</div>
+        </div>
+        <div class="final-stat-card">
+          <span class="final-stat-icon">✅</span>
+          <div class="final-stat-value" id="finalCompletedModules">০ / ৭</div>
+          <div class="final-stat-label">সম্পন্ন মডিউল</div>
+        </div>
+        <div class="final-stat-card">
+          <span class="final-stat-icon">📈</span>
+          <div class="final-stat-value" id="finalProgressPercent">০%</div>
+          <div class="final-stat-label">অগ্রগতি শতাংশ</div>
+        </div>
+        <div class="final-stat-card">
+          <span class="final-stat-icon">🛡️</span>
+          <div class="final-stat-value" id="finalSafetyRating">০%</div>
+          <div class="final-stat-label">সাইবার সেফটি রেটিং</div>
+        </div>
+      </div>
+
+      <div class="final-badge-section">
+        <h2 class="final-section-title">🎖️ আপনার ব্যাজ</h2>
+        <div class="final-badge-row stagger-parent" id="finalBadgeRow"></div>
+      </div>
+
+      <div class="final-module-breakdown">
+        <h2 class="final-section-title">📋 মডিউল অনুযায়ী বিস্তারিত</h2>
+        <div class="final-module-list stagger-parent" id="finalModuleList"></div>
+      </div>
+
+      <div class="final-cert-section">
+        <h2 class="final-section-title">📜 সম্পন্নতার সনদ</h2>
+        <div class="cert-name-input-row">
+          <label for="certNameInput">আপনার নাম লিখুন:</label>
+          <input type="text" id="certNameInput" class="cert-name-input" placeholder="শিক্ষার্থীর নাম" autocomplete="off" />
+        </div>
+        <div class="cert-card aos aos-scale" id="certCard"></div>
+        <button type="button" class="btn btn-ghost cert-print-btn" id="certPrintBtn">🖨️ সনদ প্রিন্ট করুন</button>
+      </div>
+
+    </div>
+  </section>
+  <!-- MODULE_FINAL_END -->
+
+</main>
+
+<footer>
+  <div class="container">
+    <strong>কম্পিউটার রক্ষণাবেক্ষণ ও সাইবার নিরাপত্তা শিক্ষণ প্ল্যাটফর্ম</strong> — আইসিটি অধ্যায় ২, নবম-দশম শ্রেণি
+    <div class="credit">তৈরি করেছেন আবিদ হাসান — শিক্ষা প্রযুক্তি ও প্রকৌশল বিভাগ</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ===================== BENGALI DIGIT HELPER ===================== */
+  const BN_DIGITS = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+  function bn(num){
+    return String(num).split('').map(ch => BN_DIGITS[ch] !== undefined ? BN_DIGITS[ch] : ch).join('');
+  }
+
+  /* ===================== STATE MANAGEMENT ===================== */
+  const STORAGE_KEY = 'ictPlatform_v1';
+
+  const DEFAULT_STATE = {
+    modules: {
+      password:      { completed:false, points:0, maxPoints:20  },
+      match:         { completed:false, points:0, maxPoints:50  },
+      truefalse:     { completed:false, points:0, maxPoints:150 },
+      cyberthreat:   { completed:false, points:0, maxPoints:100 },
+      safeunsafe:    { completed:false, points:0, maxPoints:100 },
+      sorting:       { completed:false, points:0, maxPoints:100 },
+      troubleshoot:  { completed:false, points:0, maxPoints:100 }
+    }
+  };
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+      const parsed = JSON.parse(raw);
+      // merge defensively in case new modules get added later
+      const merged = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      Object.keys(merged.modules).forEach(key=>{
+        if(parsed.modules && parsed.modules[key]){
+          merged.modules[key] = Object.assign({}, merged.modules[key], parsed.modules[key]);
+        }
+      });
+      return merged;
+    }catch(e){
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+  }
+
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appState)); }catch(e){}
+  }
+
+  window.appState = loadState();
+  window.saveAppState = saveState;
+  window.toBn = bn;
+
+  /* ===================== DARK MODE SYSTEM ===================== */
+  const THEME_KEY = 'ictPlatform_theme';
+  function applyTheme(theme){
+    if(theme === 'dark'){
+      document.documentElement.setAttribute('data-theme','dark');
+      const btn = document.getElementById('themeToggle');
+      if(btn) btn.textContent = '🌙';
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      const btn = document.getElementById('themeToggle');
+      if(btn) btn.textContent = '☀️';
+    }
+  }
+  function getStoredTheme(){
+    try{ return localStorage.getItem(THEME_KEY); }catch(e){ return null; }
+  }
+  function setStoredTheme(theme){
+    try{ localStorage.setItem(THEME_KEY, theme); }catch(e){}
+  }
+  function initThemeSystem(){
+    const saved = getStoredTheme();
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initial = saved || (prefersDark ? 'dark' : 'light');
+    applyTheme(initial);
+    const toggleBtn = document.getElementById('themeToggle');
+    if(toggleBtn){
+      toggleBtn.addEventListener('click', ()=>{
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const next = isDark ? 'light' : 'dark';
+        applyTheme(next);
+        setStoredTheme(next);
+      });
+    }
+  }
+  window.applyTheme = applyTheme;
+
+  /* ===================== SOUND EFFECTS (WebAudio, no external files) ===================== */
+  let audioCtx = null;
+  function getAudioCtx(){
+    if(!audioCtx){
+      try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ return null; }
+    }
+    return audioCtx;
+  }
+  function playTone(freq, duration, type, volume){
+    const ctx = getAudioCtx();
+    if(!ctx) return;
+    try{
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(volume || 0.12, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + duration);
+    }catch(e){}
+  }
+  function playCorrectSound(){ playTone(660,0.12,'sine',0.1); setTimeout(()=>playTone(880,0.16,'sine',0.1),90); }
+  function playWrongSound(){ playTone(220,0.22,'sawtooth',0.07); }
+  window.playCorrectSound = playCorrectSound;
+  window.playWrongSound = playWrongSound;
+
+  /* ===================== SCROLL ANIMATIONS (AOS-style IntersectionObserver) ===================== */
+  function initScrollAnimations(){
+    if(!('IntersectionObserver' in window)){
+      document.querySelectorAll('.aos').forEach(el=>el.classList.add('aos-in'));
+      return;
+    }
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('aos-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.aos').forEach(el=>io.observe(el));
+  }
+  window.refreshScrollAnimations = function(){
+    document.querySelectorAll('.aos:not(.aos-in)').forEach(el=>{
+      const rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight*0.9) el.classList.add('aos-in');
+    });
+    initScrollAnimations();
+  };
+
+  /* ===================== HERO PARALLAX ===================== */
+  function initParallax(){
+    const orb = document.querySelector('.hero-orb');
+    if(!orb) return;
+    window.addEventListener('scroll', function(){
+      const y = window.scrollY;
+      if(y < 600){ orb.style.transform = `translateY(${y*0.25}px)`; }
+    }, {passive:true});
+  }
+
+  /* ===================== LOADING SCREEN DISMISS ===================== */
+  function hideLoadingScreen(){
+    const el = document.getElementById('loadingScreen');
+    if(el) setTimeout(()=>el.classList.add('hidden'), 550);
+  }
+
+  /* ===================== MODULE DEFINITIONS (for nav + home cards) ===================== */
+  const MODULES = [
+    { id:'password',     icon:'🔐',     level:1, title:'পাসওয়ার্ড পরীক্ষক',     desc:'আপনার পাসওয়ার্ডের শক্তি যাচাই করুন' },
+    { id:'match',         icon:'🔗',     level:2, title:'মিল করুন',                desc:'শব্দ ও সংজ্ঞা মিলিয়ে শিখুন' },
+    { id:'truefalse',     icon:'✅',     level:3, title:'সত্য/মিথ্যা কুইজ',         desc:'১৫টি প্রশ্নে নিজেকে যাচাই করুন' },
+    { id:'cyberthreat',   icon:'🦠',     level:4, title:'সাইবার হুমকি চিনুন',       desc:'বাস্তব দৃশ্যকল্প থেকে হুমকি সনাক্ত করুন' },
+    { id:'safeunsafe',    icon:'🛡️',    level:5, title:'নিরাপদ নাকি অনিরাপদ',      desc:'সঠিক সিদ্ধান্ত নেওয়ার অনুশীলন করুন' },
+    { id:'sorting',       icon:'🦠🛡️',  level:6, title:'বাছাই খেলা',               desc:'হুমকি, সুরক্ষা ও ভালো অভ্যাস আলাদা করুন' },
+    { id:'troubleshoot',  icon:'🔧',     level:7, title:'সমস্যা সমাধান',            desc:'কম্পিউটারের সমস্যার সমাধান করুন' }
+  ];
+
+  const NAV_ITEMS = [
+    { id:'home',    icon:'🏠', label:'হোম' },
+    { id:'summary', icon:'📖', label:'অধ্যায়ের সারাংশ' },
+    { id:'password', icon:'🔐', label:'পাসওয়ার্ড' },
+    { id:'match', icon:'🔗', label:'মিল করুন' },
+    { id:'truefalse', icon:'✅', label:'সত্য/মিথ্যা' },
+    { id:'cyberthreat', icon:'🦠', label:'সাইবার হুমকি' },
+    { id:'safeunsafe', icon:'🛡️', label:'নিরাপদ/অনিরাপদ' },
+    { id:'sorting', icon:'🦠🛡️', label:'বাছাই খেলা' },
+    { id:'troubleshoot', icon:'🔧', label:'সমস্যা সমাধান' },
+    { id:'final', icon:'🏆', label:'ফলাফল' }
+  ];
+
+  /* ===================== RENDER: NAV ===================== */
+  function buildNavHTML(item){
+    return `<li><a href="#" class="nav-link" data-page="${item.id}"><span class="nav-icon">${item.icon}</span><span>${item.label}</span></a></li>`;
+  }
+  document.getElementById('navLinks').innerHTML = NAV_ITEMS.map(buildNavHTML).join('');
+  document.getElementById('navLinksMobile').innerHTML = NAV_ITEMS.map(buildNavHTML).join('');
+
+  function setActiveNav(pageId){
+    document.querySelectorAll('.nav-link').forEach(el=>{
+      el.classList.toggle('active', el.getAttribute('data-page') === pageId);
+    });
+  }
+
+  /* ===================== RENDER: MODULE GRID (home) ===================== */
+  function renderModuleGrid(){
+    const grid = document.getElementById('moduleGrid');
+    grid.innerHTML = MODULES.map(m=>{
+      const state = window.appState.modules[m.id] || {completed:false, points:0, maxPoints:0};
+      const statusTag = state.completed
+        ? '<span class="tag tag-ready">✅ সম্পন্ন</span>'
+        : (state.points > 0
+            ? '<span class="tag tag-progress">🔄 চলছে</span>'
+            : '<span class="tag tag-play">▶ খেলুন</span>');
+      return `
+        <div class="module-card glass-card aos">
+          <span class="level-badge">${bn(m.level)}</span>
+          <span class="m-icon">${m.icon}</span>
+          <h3>${m.title}</h3>
+          <p>${m.desc}</p>
+          <div class="m-footer">
+            <button class="m-go" data-page="${m.id}">খেলুন →</button>
+            <span class="m-points">${bn(state.points)}/${bn(m.maxPoints)} pt</span>
+          </div>
+          <div style="position:absolute;top:18px;right:18px;">${statusTag}</div>
+        </div>
+      `;
+    }).join('');
+    if(window.refreshScrollAnimations) setTimeout(window.refreshScrollAnimations, 20);
+  }
+
+  /* ===================== RENDER: HOME STATS ===================== */
+  function renderHomeStats(){
+    const modIds = Object.keys(window.appState.modules);
+    const completedCount = modIds.filter(id=>window.appState.modules[id].completed).length;
+    const totalPoints = modIds.reduce((sum,id)=>sum+window.appState.modules[id].points,0);
+    const maxPoints = modIds.reduce((sum,id)=>sum+window.appState.modules[id].maxPoints,0);
+    const percent = modIds.length ? Math.round((completedCount/modIds.length)*100) : 0;
+
+    document.getElementById('statCompleted').textContent = bn(completedCount)+'/'+bn(modIds.length);
+    document.getElementById('statScore').textContent = bn(totalPoints)+' / '+bn(maxPoints);
+    document.getElementById('progressPercentLabel').textContent = bn(percent)+'%';
+    document.getElementById('progressFill').style.width = percent+'%';
+  }
+
+  function refreshHome(){
+    renderModuleGrid();
+    renderHomeStats();
+  }
+
+  /* ===================== NAVIGATION ===================== */
+  function navigateTo(pageId){
+    const target = document.getElementById('page-'+pageId);
+    if(!target) return;
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    target.classList.add('active');
+    setActiveNav(pageId);
+    closeDrawer();
+    window.scrollTo({top:0, behavior:'auto'});
+    if(pageId === 'home') refreshHome();
+    if(pageId === 'final' && window.refreshFinalPage) window.refreshFinalPage();
+    if(window.refreshScrollAnimations) setTimeout(window.refreshScrollAnimations, 30);
+  }
+  window.navigateTo = navigateTo;
+
+  document.addEventListener('click', function(e){
+    const trigger = e.target.closest('[data-page]');
+    if(trigger){
+      e.preventDefault();
+      navigateTo(trigger.getAttribute('data-page'));
+    }
+  });
+
+  /* ===================== MOBILE DRAWER ===================== */
+  const drawerOverlay = document.getElementById('drawerOverlay');
+  function openDrawer(){ drawerOverlay.classList.add('open'); }
+  function closeDrawer(){ drawerOverlay.classList.remove('open'); }
+  document.getElementById('menuToggle').addEventListener('click', openDrawer);
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', function(e){ if(e.target === drawerOverlay) closeDrawer(); });
+
+  /* ===================== ACCORDION (summary page) ===================== */
+  document.querySelectorAll('.acc-trigger').forEach(btn=>{
+    btn.addEventListener('click', function(){
+      this.closest('.acc-item').classList.toggle('open');
+    });
+  });
+
+  /* ===================== SHARED UTILITIES FOR FUTURE MODULES ===================== */
+  function showToast(message, type){
+    const container = document.getElementById('toast-container');
+    const el = document.createElement('div');
+    el.className = 'toast' + (type ? ' '+type : '');
+    el.textContent = message;
+    container.appendChild(el);
+    setTimeout(()=>{ el.remove(); }, 2600);
+  }
+  window.showToast = showToast;
+
+  function celebrate(){
+    const container = document.getElementById('confetti-container');
+    const colors = ['#2D5BFF','#18C7D6','#9B7BFF','#FFC857','#2ED9A6'];
+    for(let i=0;i<60;i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const size = 6+Math.random()*6;
+      piece.style.width = size+'px';
+      piece.style.height = (size*0.4)+'px';
+      piece.style.left = Math.random()*100+'vw';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.animationDuration = (2.2+Math.random()*1.6)+'s';
+      piece.style.animationDelay = (Math.random()*0.3)+'s';
+      container.appendChild(piece);
+      setTimeout(()=>piece.remove(), 4500);
+    }
+  }
+  window.celebrate = celebrate;
+
+  function setModuleResult(moduleId, points, completed){
+    if(!window.appState.modules[moduleId]) return;
+    window.appState.modules[moduleId].points = points;
+    window.appState.modules[moduleId].completed = !!completed;
+    saveState();
+  }
+  window.setModuleResult = setModuleResult;
+
+  /* ===================== MODULE 1: PASSWORD STRENGTH CHECKER ===================== */
+  const PW_TIPS = [
+    'একই পাসওয়ার্ড একাধিক অ্যাকাউন্টে ব্যবহার করবেন না।',
+    'Two-Factor Authentication (2FA) চালু রাখুন — হ্যাক হওয়ার ঝুঁকি অনেক কমে যায়।',
+    'অপরিচিত লিংকে ক্লিক করার আগে দুইবার ভাবুন।',
+    'নিয়মিত সফটওয়্যার ও অ্যান্টিভাইরাস আপডেট রাখুন।',
+    'সোশ্যাল মিডিয়ায় পিন কোড বা গোপনীয় তথ্য শেয়ার করবেন না।',
+    'পাবলিক Wi-Fi থেকে ব্যাংকিং বা গুরুত্বপূর্ণ লগইন এড়িয়ে চলুন।',
+    'পাসওয়ার্ডে নিজের নাম, জন্মতারিখ বা ফোন নম্বর ব্যবহার করবেন না।',
+    'প্রতি কয়েক মাসে গুরুত্বপূর্ণ অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তন করুন।',
+    'ডিভাইসে ফায়ারওয়াল ও অ্যান্টিভাইরাস সক্রিয় রাখুন।'
+  ];
+  const PW_WORDS = ['Cipher','Falcon','Nebula','Comet','Quantum','Byte','Vertex','Photon','Aurora','Cobalt'];
+  const PW_SUFFIX = ['ICT','Tech','BD','Net','Pro','Code'];
+  const PW_SYMBOLS = ['@','#','%','&'];
+
+  function generatePwSuggestion(){
+    const word = PW_WORDS[Math.floor(Math.random()*PW_WORDS.length)];
+    const suffix = PW_SUFFIX[Math.floor(Math.random()*PW_SUFFIX.length)];
+    const sym = PW_SYMBOLS[Math.floor(Math.random()*PW_SYMBOLS.length)];
+    const num = 1000+Math.floor(Math.random()*9000);
+    return `${word}${sym}${num}${sym}${suffix}`;
+  }
+
+  function evaluatePassword(pwd){
+    const checks = {
+      length:  pwd.length >= 8,
+      upper:   /[A-Z]/.test(pwd),
+      lower:   /[a-z]/.test(pwd),
+      number:  /[0-9]/.test(pwd),
+      special: /[^A-Za-z0-9]/.test(pwd)
+    };
+    const score = Object.values(checks).filter(Boolean).length;
+    return {checks, score};
+  }
+
+  function pwCategory(score){
+    if(score <= 2) return 'weak';
+    if(score <= 4) return 'medium';
+    return 'strong';
+  }
+
+  function triggerPop(el){
+    el.classList.remove('pop');
+    void el.offsetWidth;
+    el.classList.add('pop');
+  }
+
+  const PW_CRITERIA_LABELS = [
+    {key:'length',  pass:'দৈর্ঘ্য পর্যাপ্ত (৮+ অক্ষর)', fail:'দৈর্ঘ্য কম (৮ অক্ষরের কম)'},
+    {key:'upper',   pass:'বড় অক্ষর আছে',              fail:'বড় অক্ষর নেই'},
+    {key:'lower',   pass:'ছোট অক্ষর আছে',              fail:'ছোট অক্ষর নেই'},
+    {key:'number',  pass:'সংখ্যা আছে',                  fail:'সংখ্যা নেই'},
+    {key:'special', pass:'বিশেষ চিহ্ন আছে',             fail:'বিশেষ চিহ্ন নেই'}
+  ];
+
+  function initPasswordModule(){
+    const input = document.getElementById('pwInput');
+    if(!input) return;
+
+    const els = {
+      input,
+      eye: document.getElementById('pwToggleEye'),
+      badge: document.getElementById('pwBadge'),
+      scoreLabel: document.getElementById('pwScoreLabel'),
+      meterFill: document.getElementById('pwMeterFill'),
+      criteriaList: document.getElementById('pwCriteria'),
+      warning: document.getElementById('pwWarning'),
+      suggestCode: document.getElementById('pwSuggestCode'),
+      regenBtn: document.getElementById('pwRegenBtn'),
+      copyBtn: document.getElementById('pwCopyBtn'),
+      tipText: document.getElementById('pwTipText'),
+      tipBtn: document.getElementById('pwTipBtn'),
+      progressNote: document.getElementById('pwProgressNote')
+    };
+
+    let prevCategory = null;
+
+    function renderCriteria(checks){
+      els.criteriaList.innerHTML = PW_CRITERIA_LABELS.map(c=>{
+        const passed = checks[c.key];
+        return `<li class="${passed?'pass':'fail'}"><span class="c-mark">${passed?'✓':'✗'}</span>${passed?c.pass:c.fail}</li>`;
+      }).join('');
+    }
+
+    function renderProgressNote(){
+      const cur = window.appState.modules.password;
+      if(cur.points > 0){
+        els.progressNote.textContent = `🏅 সর্বোচ্চ অর্জিত পয়েন্ট: ${bn(cur.points)}/২০ ${cur.completed ? '— ✅ সম্পন্ন' : ''}`;
+      }else{
+        els.progressNote.textContent = '👇 একটি পাসওয়ার্ড লিখে অনুশীলন শুরু করুন';
+      }
+    }
+
+    function maybeUpdateProgress(score){
+      const points = Math.round(score/5*20);
+      const current = window.appState.modules.password;
+      const completed = score === 5;
+      if(points > current.points || (completed && !current.completed)){
+        const wasCompleted = current.completed;
+        window.setModuleResult('password', Math.max(points, current.points), completed || current.completed);
+        renderProgressNote();
+        if(completed && !wasCompleted){
+          window.celebrate();
+          window.showToast('🎉 অভিনন্দন! আপনি একটি শক্তিশালী পাসওয়ার্ড তৈরি করেছেন!','success');
+        }
+      }
+    }
+
+    function update(){
+      const pwd = els.input.value;
+      if(!pwd){
+        els.badge.textContent = '🔘 লিখুন';
+        els.badge.classList.remove('weak','medium','strong','pop');
+        els.scoreLabel.textContent = '';
+        els.meterFill.style.width = '0%';
+        els.meterFill.style.background = 'var(--ink-faint)';
+        els.criteriaList.innerHTML = '';
+        els.warning.style.display = 'none';
+        prevCategory = null;
+        return;
+      }
+      const {checks, score} = evaluatePassword(pwd);
+      const cat = pwCategory(score);
+      const labels = {weak:'🔴 দুর্বল', medium:'🟡 মাঝারি', strong:'🟢 শক্তিশালী'};
+      const colors = {weak:'var(--danger)', medium:'var(--warning)', strong:'var(--success)'};
+
+      els.badge.textContent = labels[cat];
+      els.badge.classList.remove('weak','medium','strong');
+      els.badge.classList.add(cat);
+      if(cat !== prevCategory){ triggerPop(els.badge); prevCategory = cat; }
+
+      els.scoreLabel.textContent = `${bn(score)}/${bn(5)}`;
+      els.meterFill.style.width = (score/5*100)+'%';
+      els.meterFill.style.background = colors[cat];
+      renderCriteria(checks);
+      els.warning.style.display = cat === 'weak' ? 'block' : 'none';
+
+      maybeUpdateProgress(score);
+    }
+
+    function showRandomTip(){
+      els.tipText.textContent = PW_TIPS[Math.floor(Math.random()*PW_TIPS.length)];
+    }
+
+    els.input.addEventListener('input', update);
+
+    els.eye.addEventListener('click', ()=>{
+      const isPwd = els.input.type === 'password';
+      els.input.type = isPwd ? 'text' : 'password';
+      els.eye.textContent = isPwd ? '🙈' : '👁️';
+    });
+
+    els.regenBtn.addEventListener('click', ()=>{
+      els.suggestCode.textContent = generatePwSuggestion();
+    });
+
+    els.copyBtn.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.suggestCode.textContent);
+        window.showToast('📋 কপি হয়েছে!','success');
+      }catch(e){
+        window.showToast('কপি করা যায়নি, ম্যানুয়ালি কপি করুন','error');
+      }
+    });
+
+    els.tipBtn.addEventListener('click', showRandomTip);
+
+    els.suggestCode.textContent = generatePwSuggestion();
+    showRandomTip();
+    renderProgressNote();
+    update();
+  }
+
+  /* ===================== MODULE 2: MATCH THE COLUMN ===================== */
+  const MATCH_PAIR_BANK = [
+    { id:'ram',         term:'RAM',                def:'অস্থায়ী মেমোরি' },
+    { id:'cpu',         term:'CPU',                def:'প্রসেসিং ইউনিট' },
+    { id:'malware',     term:'Malware',            def:'ক্ষতিকর সফটওয়্যার' },
+    { id:'firewall',    term:'Firewall',           def:'নেটওয়ার্ক নিরাপত্তা' },
+    { id:'copyright',   term:'Copyright',          def:'আইনি সুরক্ষা' },
+    { id:'hacking',     term:'Hacking',            def:'অনুমতি ছাড়া সিস্টেমে প্রবেশ' },
+    { id:'encryption',  term:'Encryption',         def:'তথ্যকে বিশেষ কোডে রূপান্তর' },
+    { id:'phishing',    term:'Phishing',           def:'প্রতারণামূলক লিংকে তথ্য চুরি' },
+    { id:'ddos',        term:'DDoS',               def:'সার্ভারে কৃত্রিম ট্র্যাফিকের আক্রমণ' },
+    { id:'antivirus',   term:'Antivirus',          def:'ভাইরাস শনাক্ত ও প্রতিরোধক সফটওয়্যার' },
+    { id:'bruteforce',  term:'Brute Force Attack', def:'ট্রায়াল অ্যান্ড এরর পাসওয়ার্ড অনুমান' },
+    { id:'otp',         term:'OTP',                def:'একবার ব্যবহারযোগ্য পাসওয়ার্ড' },
+    { id:'tfa',         term:'2FA',                def:'দুই স্তরের নিরাপত্তা যাচাই' },
+    { id:'cyberbully',  term:'Cyber Bullying',     def:'অনলাইনে হেনস্তা বা হুমকি' },
+    { id:'piracy',      term:'Software Piracy',    def:'অনুমতি ছাড়া সফটওয়্যার নকল' }
+  ];
+
+  function shuffleArray(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+  window.shuffleArray = shuffleArray;
+
+  function initMatchModule(){
+    const leftColEl = document.getElementById('matchLeftCol');
+    if(!leftColEl) return;
+    const rightColEl = document.getElementById('matchRightCol');
+    const scoreLabel = document.getElementById('matchScoreLabel');
+    const retryBtn = document.getElementById('matchRetryBtn');
+    const completeBanner = document.getElementById('matchCompleteBanner');
+    const finalScoreEl = document.getElementById('matchFinalScore');
+
+    const pairsById = {};
+    MATCH_PAIR_BANK.forEach(p=>{ pairsById[p.id]=p; });
+
+    let leftOrder, rightOrder, matchedIds, correctCount, selectedChipId;
+
+    function resetGameState(){
+      const roundPairs = pickFromBank(MATCH_PAIR_BANK, 5, 'match');
+      leftOrder = shuffleArray(roundPairs);
+      rightOrder = shuffleArray(roundPairs);
+      matchedIds = new Set();
+      correctCount = 0;
+      selectedChipId = null;
+      completeBanner.style.display = 'none';
+      render();
+      updateScoreDisplay();
+    }
+
+    function updateScoreDisplay(){
+      scoreLabel.textContent = `${bn(correctCount)}/${bn(5)}`;
+    }
+
+    function persistProgress(){
+      const points = correctCount*10;
+      const current = window.appState.modules.match;
+      const completed = correctCount === 5;
+      if(points > current.points || (completed && !current.completed)){
+        window.setModuleResult('match', Math.max(points, current.points), completed || current.completed);
+      }
+    }
+
+    function clearChipSelection(){
+      if(selectedChipId){
+        const prev = leftColEl.querySelector(`[data-id="${selectedChipId}"]`);
+        if(prev) prev.classList.remove('selected');
+      }
+      selectedChipId = null;
+    }
+
+    function attemptMatch(chipId, zoneId, chipEl, zoneEl){
+      if(!zoneId || !zoneEl){
+        if(chipEl){ chipEl.classList.add('wrong-shake'); setTimeout(()=>chipEl.classList.remove('wrong-shake'),400); }
+        return;
+      }
+      if(zoneEl.classList.contains('filled')) return;
+
+      if(chipId === zoneId){
+        matchedIds.add(zoneId);
+        if(chipEl) chipEl.classList.add('matched');
+        zoneEl.classList.add('filled');
+        zoneEl.innerHTML = `✓ ${pairsById[chipId].term} = ${pairsById[chipId].def}`;
+        correctCount++;
+        updateScoreDisplay();
+        window.playCorrectSound();
+        window.showToast('✅ সঠিক মিল!','success');
+        persistProgress();
+        if(correctCount === 5){
+          finalScoreEl.textContent = `${bn(5)}/${bn(5)}`;
+          completeBanner.style.display = 'block';
+          window.celebrate();
+          window.showToast('🏆 সব মিল সম্পন্ন হয়েছে!','success');
+        }
+      } else {
+        zoneEl.classList.add('wrong-flash'); setTimeout(()=>zoneEl.classList.remove('wrong-flash'),500);
+        if(chipEl){ chipEl.classList.add('wrong-shake'); setTimeout(()=>chipEl.classList.remove('wrong-shake'),400); }
+        window.playWrongSound();
+        window.showToast('❌ এটি সঠিক মিল নয়, আবার চেষ্টা করুন','error');
+      }
+    }
+
+    function toggleSelect(chipId, chipEl){
+      if(selectedChipId === chipId){
+        chipEl.classList.remove('selected');
+        selectedChipId = null;
+        return;
+      }
+      clearChipSelection();
+      selectedChipId = chipId;
+      chipEl.classList.add('selected');
+    }
+
+    function bindChip(chipEl){
+      const chipId = chipEl.getAttribute('data-id');
+      chipEl.addEventListener('pointerdown', function(e){
+        if(chipEl.classList.contains('matched')) return;
+        e.preventDefault();
+        const startX = e.clientX, startY = e.clientY;
+        let dragging = false;
+        try{ chipEl.setPointerCapture(e.pointerId); }catch(err){}
+
+        function onMove(ev){
+          const dx = ev.clientX-startX, dy = ev.clientY-startY;
+          if(!dragging && Math.hypot(dx,dy) > 6){
+            dragging = true;
+            chipEl.classList.add('dragging');
+            chipEl.style.pointerEvents = 'none';
+          }
+          if(dragging){
+            chipEl.style.transform = `translate(${dx}px,${dy}px)`;
+            const target = document.elementFromPoint(ev.clientX, ev.clientY);
+            const zone = target ? target.closest('.match-zone') : null;
+            rightColEl.querySelectorAll('.match-zone').forEach(z=>z.classList.remove('hover-target'));
+            if(zone && !zone.classList.contains('filled')) zone.classList.add('hover-target');
+          }
+        }
+
+        function onUp(ev){
+          try{ chipEl.releasePointerCapture(ev.pointerId); }catch(err){}
+          chipEl.removeEventListener('pointermove', onMove);
+          chipEl.removeEventListener('pointerup', onUp);
+          chipEl.removeEventListener('pointercancel', onUp);
+
+          if(dragging){
+            chipEl.style.transform = '';
+            chipEl.classList.remove('dragging');
+            chipEl.style.pointerEvents = '';
+            rightColEl.querySelectorAll('.match-zone').forEach(z=>z.classList.remove('hover-target'));
+            const target = document.elementFromPoint(ev.clientX, ev.clientY);
+            const zone = target ? target.closest('.match-zone') : null;
+            attemptMatch(chipId, zone ? zone.getAttribute('data-id') : null, chipEl, zone);
+          } else {
+            toggleSelect(chipId, chipEl);
+          }
+        }
+
+        chipEl.addEventListener('pointermove', onMove);
+        chipEl.addEventListener('pointerup', onUp);
+        chipEl.addEventListener('pointercancel', onUp);
+      });
+      chipEl.addEventListener('keydown', function(e){
+        if(chipEl.classList.contains('matched')) return;
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          toggleSelect(chipId, chipEl);
+        }
+      });
+    }
+
+    function bindZone(zoneEl){
+      zoneEl.addEventListener('click', function(){
+        if(zoneEl.classList.contains('filled') || !selectedChipId) return;
+        const chipEl = leftColEl.querySelector(`[data-id="${selectedChipId}"]`);
+        const chipId = selectedChipId;
+        clearChipSelection();
+        attemptMatch(chipId, zoneEl.getAttribute('data-id'), chipEl, zoneEl);
+      });
+      zoneEl.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          zoneEl.click();
+        }
+      });
+    }
+
+    function render(){
+      leftColEl.innerHTML = leftOrder.map(p=>`<div class="match-chip" data-id="${p.id}" tabindex="0">${p.term}</div>`).join('');
+      rightColEl.innerHTML = rightOrder.map(p=>`<div class="match-zone" data-id="${p.id}" tabindex="0">${p.def}</div>`).join('');
+      leftColEl.querySelectorAll('.match-chip').forEach(bindChip);
+      rightColEl.querySelectorAll('.match-zone').forEach(bindZone);
+    }
+
+    retryBtn.addEventListener('click', resetGameState);
+
+    resetGameState();
+  }
+
+  /* ===================== MODULE 3: TRUE/FALSE QUIZ ===================== */
+  const TF_QUESTION_BANK = [
+    {q:'একই পাসওয়ার্ড সব অ্যাকাউন্টে ব্যবহার করা নিরাপদ।',answer:false,explain:'একই পাসওয়ার্ড সব জায়গায় ব্যবহার করলে একটি অ্যাকাউন্ট হ্যাক হলে অন্য সব অ্যাকাউন্টও ঝুঁকিতে পড়ে যায়। প্রতিটি প্ল্যাটফর্মে আলাদা শক্তিশালী পাসওয়ার্ড ব্যবহার করা উচিত।'},
+    {q:'সফটওয়্যার আনইনস্টল করলে এর সব ফাইল রেজিস্ট্রি থেকেও সম্পূর্ণ মুছে যায়।',answer:false,explain:'শুধু আনইনস্টল করলে রেজিস্ট্রিতে কিছু অংশ থেকে যায়। সম্পূর্ণ মুছে ফেলতে regedit ব্যবহার করে আলাদাভাবে ডিলিট করতে হয়।'},
+    {q:'Two-Factor Authentication (2FA) চালু রাখলে অ্যাকাউন্ট হ্যাক হওয়ার ঝুঁকি কমে যায়।',answer:true,explain:'2FA-তে আইডি ও পাসওয়ার্ডের পর একটি OTP দিতে হয়, যা অতিরিক্ত সুরক্ষা স্তর তৈরি করে।'},
+    {q:'হোয়াইট হ্যাট হ্যাকার অবৈধভাবে সিস্টেমে প্রবেশ করে ক্ষতি সাধন করে।',answer:false,explain:'হোয়াইট হ্যাট হ্যাকার বৈধভাবে সিস্টেমের নিরাপত্তা পরীক্ষা করেন। অবৈধভাবে ক্ষতি করে ব্ল্যাক হ্যাট হ্যাকার বা ক্র্যাকার।'},
+    {q:'ব্রুট ফোর্স অ্যাটাকে ট্রায়াল অ্যান্ড এরর পদ্ধতিতে পাসওয়ার্ড অনুমান করার চেষ্টা করা হয়।',answer:true,explain:'এটি ব্রুট ফোর্স অ্যাটাকের সংজ্ঞা অনুযায়ী সঠিক — শক্তিশালী পাসওয়ার্ড না থাকলে এই আক্রমণ সফল হওয়ার ঝুঁকি বাড়ে।'},
+    {q:'এন্ড-টু-এন্ড এনক্রিপশন ডেটা ইন্টারসেপশন প্রতিরোধে সাহায্য করে।',answer:true,explain:'এনক্রিপশন তথ্যকে বিশেষ কোডে রূপান্তর করে, যা অননুমোদিত কেউ পড়তে পারে না।'},
+    {q:'সফটওয়্যার কোডিংয়ের অনিচ্ছাকৃত ভুলকে ম্যালওয়্যার বলা হয়।',answer:false,explain:'অনিচ্ছাকৃত কোডিং ভুলকে সফটওয়্যার বাগ বলা হয়। ম্যালওয়্যার হলো ইচ্ছাকৃতভাবে তৈরি করা ক্ষতিকর সফটওয়্যার।'},
+    {q:'বাংলাদেশে সাইবার বুলিং বা ফেইক নিউজ ছড়ানোর জন্য কোনো শাস্তির বিধান নেই।',answer:false,explain:'আইসিটি আইন অনুযায়ী এর জন্য সর্বোচ্চ ১০ বছর কারাদণ্ড অথবা ১ কোটি টাকা অর্থদণ্ড বা উভয় দণ্ড হতে পারে।'},
+    {q:'সাইবার আক্রমণের শিকার হলে জরুরি সেবা ৯৯৯ নম্বরে কল করা যায়।',answer:true,explain:'৯৯৯ ছাড়াও ১০৯ হেল্পলাইন এবং BTRC বা RAB-এর মাধ্যমেও অভিযোগ জানানো যায়।'},
+    {q:'টানা অনেক ঘণ্টা গেম খেলা মস্তিষ্কের গঠনে কোনো প্রভাব ফেলে না।',answer:false,explain:'গবেষণায় দেখা গেছে দীর্ঘ সময় একটানা ব্যবহারে মস্তিষ্কের গঠনে পরিবর্তন আসতে পারে।'},
+    {q:'কপিরাইট হোল্ডারের অনুমতি ছাড়া সফটওয়্যার নকল করা বাংলাদেশে সম্পূর্ণ নিষিদ্ধ।',answer:true,explain:'এটি সফটওয়্যার পাইরেসির সংজ্ঞা অনুযায়ী সঠিক, যা বাংলাদেশে আইনত নিষিদ্ধ।'},
+    {q:'তথ্য অধিকার আইন ২০০৯ অনুযায়ী পরীক্ষার প্রশ্নপত্রের মতো তথ্যও সবার জন্য উন্মুক্ত।',answer:false,explain:'রাষ্ট্রীয় নিরাপত্তা সংক্রান্ত তথ্য, যেমন পরীক্ষার প্রশ্নপত্র বা সামরিক তথ্য, এই আইনের আওতার বাইরে রাখা হয়েছে।'},
+    {q:'CMOS ব্যাটারির মেয়াদ শেষ হলে কম্পিউটারের তারিখ ও সময় ঠিক থাকে না।',answer:true,explain:'এই সমস্যার সমাধানে মাদারবোর্ডে একটি নতুন কয়েন ব্যাটারি লাগাতে হয়।'},
+    {q:'DDoS আক্রমণে একটি মাত্র ডিভাইস থেকে সার্ভারে আক্রমণ করা হয়।',answer:false,explain:'DDoS আক্রমণে একাধিক ডিভাইস থেকে একসাথে কৃত্রিম ট্র্যাফিক পাঠিয়ে সার্ভারকে ডাউন বা ধীরগতির করা হয়।'},
+    {q:'প্রতিরোধমূলক রক্ষণাবেক্ষণের কাজ ব্যবহারকারী নিজেই করতে পারেন।',answer:true,explain:'ভাইরাস স্ক্যান, ডিস্ক ক্লিনআপ ও সফটওয়্যার আপডেটের মতো কাজ ব্যবহারকারী নিজেই করতে পারেন।'},
+    {q:'র‍্যানসমওয়্যার আক্রমণে ফাইল লক করে মুক্তিপণ দাবি করা হয়।',answer:true,explain:'র‍্যানসমওয়্যার ম্যালওয়্যারের একটি বিশেষ ধরন যা ফাইল এনক্রিপ্ট করে মুক্তিপণ না দেওয়া পর্যন্ত ডিক্রিপ্ট করে না।'},
+    {q:'পাবলিক Wi-Fi নেটওয়ার্কে ব্যাংকিং কার্যক্রম পরিচালনা করা সম্পূর্ণ নিরাপদ।',answer:false,explain:'পাবলিক Wi-Fi-এ ডেটা ইন্টারসেপশনের ঝুঁকি অনেক বেশি। সংবেদনশীল কাজের জন্য নিজস্ব নেটওয়ার্ক ব্যবহার করা উচিত।'},
+    {q:'ফায়ারওয়াল নেটওয়ার্কে অননুমোদিত প্রবেশ রোধ করতে সাহায্য করে।',answer:true,explain:'ফায়ারওয়াল ইনকামিং ও আউটগোয়িং ট্র্যাফিক পর্যবেক্ষণ করে অননুমোদিত সংযোগ ব্লক করে।'},
+    {q:'সামাজিক যোগাযোগ মাধ্যমে ব্যক্তিগত তথ্য শেয়ার করলে কোনো ঝুঁকি নেই।',answer:false,explain:'সামাজিক যোগাযোগ মাধ্যমে ব্যক্তিগত তথ্য শেয়ার করলে পরিচয় চুরি, স্ক্যাম এবং সাইবার বুলিংয়ের ঝুঁকি থাকে।'},
+    {q:'অ্যান্টিভাইরাস সফটওয়্যার নিয়মিত আপডেট রাখা দরকার।',answer:true,explain:'নতুন ভাইরাসের বিরুদ্ধে সুরক্ষার জন্য অ্যান্টিভাইরাস ডেটাবেস নিয়মিত আপডেট করতে হয়।'},
+    {q:'স্পাইওয়্যার ব্যবহারকারীর অজান্তে তথ্য সংগ্রহ করে।',answer:true,explain:'স্পাইওয়্যার এক ধরনের ম্যালওয়্যার যা গোপনে ব্যবহারকারীর কার্যক্রম পর্যবেক্ষণ করে এবং তথ্য চুরি করে।'},
+    {q:'ডিস্ক ডিফ্র্যাগমেন্টেশন SSD ড্রাইভের জন্য উপকারী।',answer:false,explain:'SSD ড্রাইভে ডিফ্র্যাগমেন্টেশন প্রয়োজন নেই এবং এটি SSD-এর আয়ু কমাতে পারে। শুধু HDD-এর জন্য উপকারী।'},
+    {q:'সাইবার স্পেস বলতে শুধুমাত্র ইন্টারনেটকে বোঝায়।',answer:false,explain:'সাইবার স্পেস হলো ইন্টারনেট, ডেটা এবং কোড দ্বারা গঠিত একটি বিস্তৃত ডিজিটাল পরিবেশ।'},
+    {q:'OTP (One Time Password) শুধুমাত্র একবার ব্যবহার করা যায়।',answer:true,explain:'OTP নির্দিষ্ট সময়ের জন্য বৈধ থাকে এবং একবার ব্যবহারের পর অকার্যকর হয়ে যায়, যা নিরাপত্তা বাড়ায়।'},
+    {q:'ট্রোজান হর্স নিজেই ছড়িয়ে পড়তে পারে ওয়ার্মের মতো।',answer:false,explain:'ট্রোজান হর্স কোনো কার্যকর সফটওয়্যারের ছদ্মবেশে আসে কিন্তু নিজে থেকে ছড়ায় না। ওয়ার্ম নিজেই নেটওয়ার্কে ছড়িয়ে পড়ে।'},
+    {q:'BSA (Business Software Alliance) সফটওয়্যার পাইরেসি নজরদারি করে।',answer:true,explain:'BSA বিশ্বব্যাপী সফটওয়্যার পাইরেসি রোধে কাজ করে এবং লাইসেন্স মেনে চলার প্রচারণা পরিচালনা করে।'},
+    {q:'কম্পিউটারের কাছে চুম্বকীয় পদার্থ রাখা নিরাপদ।',answer:false,explain:'চুম্বকীয় ক্ষেত্র কম্পিউটারের হার্ডওয়্যার বিশেষত হার্ড ড্রাইভের ক্ষতি করতে পারে। কম্পিউটারের কাছে ধাতব বা চুম্বকীয় পদার্থ না রাখাই ভালো।'},
+    {q:'ডিস্ক ক্লিনআপ টুল হার্ডডিস্কের অপ্রয়োজনীয় ফাইল মুছে জায়গা খালি করে।',answer:true,explain:'ডিস্ক ক্লিনআপ টেম্পোরারি ফাইল, ক্যাশ ও অন্যান্য অপ্রয়োজনীয় ফাইল মুছে কম্পিউটারকে দ্রুত রাখতে সাহায্য করে।'},
+    {q:'ফিশিং আক্রমণে সবসময় ভাইরাস সংযুক্ত ফাইল পাঠানো হয়।',answer:false,explain:'ফিশিং আক্রমণে মূলত প্রতারণামূলক লিংক বা বার্তা ব্যবহার করা হয় ব্যক্তিগত তথ্য হাতিয়ে নিতে — সবসময় ভাইরাস ফাইল থাকে না।'},
+    {q:'নার্সিসিজম বলতে অন্যের প্রশংসা করার প্রবণতাকে বোঝায়।',answer:false,explain:'নার্সিসিজম হলো নিজেকে নিয়ে মুগ্ধ থাকার প্রবণতা। সোশ্যাল মিডিয়া এই বাসনাকে কাজে লাগিয়ে মানুষকে আসক্ত করে।'},
+    {q:'আর্থিং (Earthing) বৈদ্যুতিক শক থেকে রক্ষা করে।',answer:true,explain:'প্রোপার আর্থিং বিদ্যুতের অতিরিক্ত চার্জকে মাটিতে নিয়ে যায় এবং বৈদ্যুতিক শকের ঝুঁকি কমায়।'},
+    {q:'সংশোধনমূলক রক্ষণাবেক্ষণ সমস্যা হওয়ার আগেই নেওয়া হয়।',answer:false,explain:'সংশোধনমূলক রক্ষণাবেক্ষণ সমস্যা হওয়ার পরে নেওয়া হয়। সমস্যার আগে নেওয়া ব্যবস্থাকে প্রতিরোধমূলক রক্ষণাবেক্ষণ বলে।'},
+    {q:'র‍্যাম (RAM) কম্পিউটার বন্ধ হলেও তথ্য সংরক্ষণ করে রাখে।',answer:false,explain:'RAM হলো অস্থায়ী মেমোরি যা বিদ্যুৎ বন্ধ হলে সব তথ্য মুছে যায়। স্থায়ী তথ্য সংরক্ষণের জন্য হার্ডডিস্ক বা SSD ব্যবহার হয়।'},
+    {q:'সফটওয়্যার ইনস্টলের সময় Administrator অনুমতি থাকা জরুরি।',answer:true,explain:'সিস্টেম ফাইলে পরিবর্তন করতে Administrator অনুমতি প্রয়োজন, তাই ইনস্টলেশনের আগে এটি নিশ্চিত করতে হয়।'},
+    {q:'সাইবার বুলিং শুধুমাত্র শারীরিক ক্ষতির কারণ হতে পারে।',answer:false,explain:'সাইবার বুলিং মূলত মানসিক স্বাস্থ্যের ওপর গভীর নেতিবাচক প্রভাব ফেলে — বিষণ্নতা, উদ্বেগ ও আত্মহত্যার প্রবণতাও বাড়াতে পারে।'},
+    {q:'উন্মুক্ত তথ্যে সবার প্রবেশাধিকার থাকে।',answer:true,explain:'সংবাদ, প্রবন্ধের মতো উন্মুক্ত তথ্যে সবার অবাধ প্রবেশাধিকার থাকে এবং এর সুরক্ষায় কোনো জটিলতার প্রয়োজন হয় না।'},
+    {q:'Beep সাউন্ড না হলে বোঝা যায় মাদারবোর্ড ঠিক আছে।',answer:false,explain:'র‍্যাম ছাড়া চালু করলে Beep সাউন্ড হওয়া মানে মাদারবোর্ড ঠিক আছে। Beep না হলে মাদারবোর্ডে সমস্যা থাকতে পারে।'},
+    {q:'সোশ্যাল মিডিয়া প্ল্যাটফর্মগুলো ব্যবহারকারীকে যত বেশি সময় ধরে রাখতে পারে তত বেশি আয় করে।',answer:true,explain:'সোশ্যাল মিডিয়ার ব্যবসায়িক মডেল মূলত বিজ্ঞাপন-নির্ভর, তাই বেশি সময় স্ক্রিনে রাখলে বেশি বিজ্ঞাপন দেখানো যায় ও আয় বাড়ে।'},
+    {q:'গোপনীয় তথ্য অনুমতি ছাড়া প্রকাশ করা আইনি দণ্ডনীয় অপরাধ।',answer:true,explain:'জাতীয় পরিচয়পত্র, পাসওয়ার্ড বা বাণিজ্যিক চুক্তির মতো গোপনীয় তথ্য অনুমোদন ছাড়া প্রকাশ করা আইনি অপরাধ।'},
+    {q:'অপারেটিং সিস্টেম সবসময় হালনাগাদ রাখলে কম্পিউটার ধীরগতির হয়।',answer:false,explain:'অপারেটিং সিস্টেম আপডেটে নিরাপত্তা প্যাচ ও পারফরম্যান্স উন্নতি থাকে। না রাখলে বরং ভাইরাস ও ধীরগতির সমস্যা হওয়ার ঝুঁকি বাড়ে।'},
+    {q:'ফেইক নিউজ শুধুমাত্র বিনোদনমূলক, এতে কোনো ক্ষতি নেই।',answer:false,explain:'ফেইক নিউজ সমাজে বিভ্রান্তি ও অস্থিরতা তৈরি করতে পারে, জনমত প্রভাবিত করতে পারে এবং গুরুত্বপূর্ণ সিদ্ধান্ত গ্রহণে বাধা দিতে পারে।'}
+  ];
+
+  /* ===== REUSABLE QUIZ ENGINE: random selection with session-level deduplication ===== */
+  const QUIZ_SESSION_KEY = 'ictQuizSession_v1';
+  function loadQuizSession(){
+    try{ return JSON.parse(localStorage.getItem(QUIZ_SESSION_KEY)||'{}'); }catch(e){ return {}; }
+  }
+  function saveQuizSession(s){ try{ localStorage.setItem(QUIZ_SESSION_KEY,JSON.stringify(s)); }catch(e){} }
+  function pickFromBank(bank, n, sessionKey){
+    // simpler: just shuffle bank indices, avoiding recently used ones
+    const session = loadQuizSession();
+    const recentlyUsed = new Set(session[sessionKey]||[]);
+    const allIdx = bank.map((_,i)=>i);
+    let fresh = allIdx.filter(i=>!recentlyUsed.has(i));
+    if(fresh.length < n){
+      // reset session for this key
+      session[sessionKey] = [];
+      saveQuizSession(session);
+      fresh = shuffleArray(allIdx);
+    } else {
+      fresh = shuffleArray(fresh);
+    }
+    const chosen = fresh.slice(0,n);
+    session[sessionKey] = [...(session[sessionKey]||[]), ...chosen];
+    if((session[sessionKey]||[]).length > bank.length * 0.7){
+      session[sessionKey] = chosen; // don't let it grow forever
+    }
+    saveQuizSession(session);
+    return chosen.map(i=>bank[i]);
+  }
+
+  const TF_QUESTIONS = pickFromBank(TF_QUESTION_BANK, 15, 'tf');
+
+  function normalizeTfText(s){
+    return s.trim().toLowerCase().replace(/[।.!,?\s]+/g,'');
+  }
+  const TF_TRUE_WORDS = ['সত্য','true','t'];
+  const TF_FALSE_WORDS = ['মিথ্যা','false','f'];
+  function isTfTextCorrect(typed, correctBool){
+    const norm = normalizeTfText(typed);
+    if(!norm) return false;
+    const set = correctBool ? TF_TRUE_WORDS : TF_FALSE_WORDS;
+    return set.some(w=>normalizeTfText(w)===norm);
+  }
+
+  function initTrueFalseModule(){
+    const quizCard = document.getElementById('tfQuizCard');
+    if(!quizCard) return;
+    const resultCard = document.getElementById('tfResultCard');
+    const progressLabel = document.getElementById('tfProgress');
+    const progressFill = document.getElementById('tfProgressFill');
+    const scoreLabel = document.getElementById('tfScoreLabel');
+
+    let order, currentIndex, score;
+
+    function startQuiz(){
+      order = shuffleArray(TF_QUESTIONS);
+      currentIndex = 0;
+      score = 0;
+      resultCard.style.display = 'none';
+      quizCard.style.display = 'block';
+      renderQuestion();
+    }
+
+    function updateProgress(){
+      progressLabel.textContent = `প্রশ্ন ${bn(Math.min(currentIndex+1,order.length))} / ${bn(order.length)}`;
+      progressFill.style.width = (currentIndex/order.length*100)+'%';
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+    }
+
+    function renderQuestion(){
+      updateProgress();
+      const q = order[currentIndex];
+      quizCard.innerHTML = `
+        <span class="tf-question-num">প্রশ্ন ${bn(currentIndex+1)}</span>
+        <div class="tf-question-text">${q.q}</div>
+        <div class="tf-options">
+          <button type="button" class="tf-option-btn tf-true-btn" data-val="true">সত্য</button>
+          <button type="button" class="tf-option-btn tf-false-btn" data-val="false">মিথ্যা</button>
+        </div>
+        <div id="tfDynamicArea"></div>
+      `;
+      const trueBtn = quizCard.querySelector('[data-val="true"]');
+      const falseBtn = quizCard.querySelector('[data-val="false"]');
+
+      function handlePick(picked){
+        trueBtn.disabled = true; falseBtn.disabled = true;
+        const correct = picked === q.answer;
+        const pickedBtn = picked ? trueBtn : falseBtn;
+        const otherBtn = picked ? falseBtn : trueBtn;
+        if(correct){
+          pickedBtn.classList.add('correct-pick');
+          otherBtn.classList.add('dim');
+          score++;
+          updateProgress();
+          window.playCorrectSound();
+          showExplanation(true);
+        } else {
+          pickedBtn.classList.add('wrong-pick');
+          otherBtn.classList.add('dim');
+          window.playWrongSound();
+          showRetryInput(q);
+        }
+      }
+      trueBtn.addEventListener('click', ()=>handlePick(true));
+      falseBtn.addEventListener('click', ()=>handlePick(false));
+    }
+
+    function showRetryInput(q){
+      const area = document.getElementById('tfDynamicArea');
+      area.innerHTML = `
+        <div class="tf-retry-block">
+          <div class="tf-retry-label">❌ ভুল উত্তর! সঠিক উত্তর লিখুন:</div>
+          <div class="tf-retry-row">
+            <input type="text" class="tf-retry-input" id="tfRetryInput" placeholder="সত্য অথবা মিথ্যা লিখুন" autocomplete="off" />
+            <button type="button" class="btn btn-primary" id="tfRetrySubmit" style="padding:12px 22px;">জমা দিন</button>
+          </div>
+          <div class="tf-retry-error" id="tfRetryError" style="display:none;"></div>
+        </div>
+      `;
+      const input = document.getElementById('tfRetryInput');
+      const submitBtn = document.getElementById('tfRetrySubmit');
+      const errorEl = document.getElementById('tfRetryError');
+      function submit(){
+        const typed = input.value;
+        if(!typed.trim()) return;
+        if(isTfTextCorrect(typed, q.answer)){
+          showExplanation(false);
+        } else {
+          errorEl.textContent = 'এটি সঠিক উত্তর নয়। "সত্য" অথবা "মিথ্যা" লিখে আবার চেষ্টা করুন।';
+          errorEl.style.display = 'block';
+          input.value = '';
+          input.focus();
+        }
+      }
+      submitBtn.addEventListener('click', submit);
+      input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
+      input.focus();
+    }
+
+    function showExplanation(firstTryCorrect){
+      const q = order[currentIndex];
+      const area = document.getElementById('tfDynamicArea');
+      const boxClass = firstTryCorrect ? 'success-box' : 'info-box';
+      const icon = firstTryCorrect ? '✅' : '📘';
+      const isLast = currentIndex+1 >= order.length;
+      area.innerHTML = `
+        <div class="${boxClass}" style="margin-top:16px;"><strong>${icon} ব্যাখ্যা:</strong> ${q.explain}</div>
+        <button type="button" class="btn btn-primary tf-next-btn" id="tfNextBtn">${isLast ? 'ফলাফল দেখুন 🏁' : 'পরের প্রশ্ন →'}</button>
+      `;
+      document.getElementById('tfNextBtn').addEventListener('click', goNext);
+    }
+
+    function goNext(){
+      currentIndex++;
+      if(currentIndex >= order.length){
+        finishQuiz();
+      } else {
+        renderQuestion();
+      }
+    }
+
+    function finishQuiz(){
+      progressFill.style.width = '100%';
+      progressLabel.textContent = `সম্পন্ন ${bn(order.length)}/${bn(order.length)}`;
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+      quizCard.style.display = 'none';
+      resultCard.style.display = 'block';
+
+      const percent = Math.round(score/order.length*100);
+      let tierIcon = '🥉', tierText = 'আরও অনুশীলন প্রয়োজন';
+      if(percent >= 80){ tierIcon = '🥇'; tierText = 'অসাধারণ! আপনি বিষয়টি ভালোভাবে বুঝেছেন'; }
+      else if(percent >= 50){ tierIcon = '🥈'; tierText = 'ভালো করেছেন! আরও একবার রিভিউ করুন'; }
+
+      resultCard.innerHTML = `
+        <div class="tf-result-icon">${tierIcon}</div>
+        <div class="tf-result-score">${bn(score)}/${bn(order.length)}</div>
+        <div class="tf-result-percent">${tierText} — ${bn(percent)}% সঠিক</div>
+        <button type="button" class="btn btn-primary" id="tfRetakeBtn">🔄 আবার দিন</button>
+      `;
+      document.getElementById('tfRetakeBtn').addEventListener('click', startQuiz);
+
+      const points = score*10;
+      const current = window.appState.modules.truefalse;
+      const newPoints = Math.max(points, current.points);
+      window.setModuleResult('truefalse', newPoints, true);
+      if(score === order.length){
+        window.celebrate();
+        window.showToast('🏆 সব প্রশ্নের সঠিক উত্তর দিয়েছেন!','success');
+      }
+    }
+
+    startQuiz();
+    const tfNewBtn = document.getElementById('tfNewQuizBtn');
+    if(tfNewBtn) tfNewBtn.addEventListener('click', ()=>{
+      order = pickFromBank(TF_QUESTION_BANK,15,'tf');
+      currentIndex=0; score=0;
+      resultCard.style.display='none'; quizCard.style.display='block';
+      renderQuestion();
+      window.showToast('🎲 নতুন ১৫টি প্রশ্ন তৈরি হয়েছে!','success');
+    });
+  }
+
+  /* ===================== MODULE 4: CYBER THREAT IDENTIFICATION ===================== */
+  const CYBER_SCENARIO_BANK = [
+    { icon:'📧', text:'আপনি একটি ইমেইল পেয়েছেন: "অভিনন্দন! আপনি ১০ লক্ষ টাকা জিতেছেন। এখনই এই লিংকে ক্লিক করে আপনার তথ্য দিন।"',
+      options:['ম্যালওয়্যার','ফেইক নিউজ','ফিশিং','ফায়ারওয়াল'], correct:'ফিশিং',
+      explain:'লোভনীয় অফার দিয়ে ব্যক্তিগত তথ্য বা লগইন ডিটেইলস হাতিয়ে নেওয়ার এই কৌশলকে ফিশিং বলে।' },
+    { icon:'💻', text:'একজন অপরিচিত ব্যক্তি অনুমতি ছাড়াই আপনার স্কুলের ওয়েবসাইটে প্রবেশ করে শিক্ষার্থীদের তথ্য পরিবর্তন করে দিয়েছে।',
+      options:['হ্যাকিং','সাইবার বুলিং','DDoS অ্যাটাক','অ্যান্টিভাইরাস'], correct:'হ্যাকিং',
+      explain:'অনুমতি ছাড়া কারও ওয়েবসাইট বা নেটওয়ার্কে প্রবেশ করে নিয়ন্ত্রণ নেওয়াকে হ্যাকিং বলে।' },
+    { icon:'🦠', text:'আপনি অপরিচিত একটি ওয়েবসাইট থেকে একটি ফ্রি গেম ডাউনলোড করার পর আপনার কম্পিউটার অনেক ধীরগতির হয়ে গেছে এবং অদ্ভুত পপ-আপ আসছে।',
+      options:['ম্যালওয়্যার','ফেইক নিউজ','ডেটা ইন্টারসেপশন','2FA'], correct:'ম্যালওয়্যার',
+      explain:'অপরিচিত উৎস থেকে ডাউনলোড করা ফাইলে ক্ষতিকর সফটওয়্যার (ম্যালওয়্যার) থাকতে পারে।' },
+    { icon:'📰', text:'ফেসবুকে একটি পোস্টে লেখা আছে — "আগামীকাল থেকে সব স্কুল বন্ধ থাকবে" — কিন্তু কোনো সরকারি ওয়েবসাইটে এই খবর নেই।',
+      options:['ফেইক নিউজ','হ্যাকিং','ফিশিং','ফায়ারওয়াল'], correct:'ফেইক নিউজ',
+      explain:'মানুষকে বিভ্রান্ত করতে ইচ্ছাকৃতভাবে ছড়ানো মিথ্যা সংবাদকে ফেইক নিউজ বলে।' },
+    { icon:'💬', text:'একটি ফেসবুক গ্রুপে কয়েকজন মিলে একজন সহপাঠীকে নিয়ে অপমানজনক মন্তব্য করছে এবং তার ছবি নিয়ে মিম বানিয়ে ছড়াচ্ছে।',
+      options:['সাইবার বুলিং','DDoS অ্যাটাক','ব্রুট ফোর্স অ্যাটাক','ফায়ারওয়াল'], correct:'সাইবার বুলিং',
+      explain:'অনলাইনে কাউকে অপমান করা বা হেনস্তা করাকে সাইবার বুলিং বলে।' },
+    { icon:'🌐', text:'একটি অনলাইন পরীক্ষার ওয়েবসাইটে হঠাৎ লক্ষ লক্ষ ভুয়া রিকোয়েস্ট আসায় সার্ভার ক্র্যাশ করে গেছে।',
+      options:['DDoS অ্যাটাক','ফিশিং','সাইবার বুলিং','অ্যান্টিভাইরাস'], correct:'DDoS অ্যাটাক',
+      explain:'একাধিক ডিভাইস থেকে কৃত্রিম ট্র্যাফিক পাঠিয়ে সার্ভার ডাউন করার আক্রমণকে DDoS বলে।' },
+    { icon:'📡', text:'আপনি একটি পাবলিক Wi-Fi ব্যবহার করে ব্যাংকিং অ্যাপে লগইন করার সময় কেউ মাঝখান থেকে আপনার তথ্য চুরি করছে।',
+      options:['ডেটা ইন্টারসেপশন','ম্যালওয়্যার','ফেইক নিউজ','2FA'], correct:'ডেটা ইন্টারসেপশন',
+      explain:'প্রেরক ও প্রাপকের মধ্যবর্তী স্থান থেকে আড়ি পেতে তথ্য চুরির প্রক্রিয়াকে ডেটা ইন্টারসেপশন বলে।' },
+    { icon:'📱', text:'আপনার মোবাইলে একটি মেসেজ এসেছে — "আপনার ব্যাংক অ্যাকাউন্ট ব্লক হয়ে গেছে, এখনই এই লিংকে গিয়ে আপনার পিন নম্বর যাচাই করুন।"',
+      options:['ফিশিং','হ্যাকিং','DDoS অ্যাটাক','ফায়ারওয়াল'], correct:'ফিশিং',
+      explain:'পরিচিত প্রতিষ্ঠানের নাম ব্যবহার করে তাড়াহুড়া তৈরি করে গোপনীয় তথ্য হাতিয়ে নেওয়া ফিশিং।' },
+    { icon:'🔓', text:'কেউ একটি সফটওয়্যার ব্যবহার করে আপনার ইমেইল অ্যাকাউন্টে হাজার হাজার সম্ভাব্য পাসওয়ার্ড একের পর এক প্রয়োগ করছে।',
+      options:['ব্রুট ফোর্স অ্যাটাক','ফেইক নিউজ','সাইবার বুলিং','এনক্রিপশন'], correct:'ব্রুট ফোর্স অ্যাটাক',
+      explain:'ট্রায়াল অ্যান্ড এরর পদ্ধতিতে পাসওয়ার্ড অনুমান করার চেষ্টাকে ব্রুট ফোর্স অ্যাটাক বলে।' },
+    { icon:'🦠', text:'আপনার কম্পিউটারের সব ফাইল হঠাৎ লক হয়ে গেছে এবং স্ক্রিনে লেখা এসেছে — "আপনার ফাইল ফিরে পেতে চাইলে ৫০,০০০ টাকা পাঠান।"',
+      options:['ম্যালওয়্যার','ফিশিং','DDoS অ্যাটাক','ফায়ারওয়াল'], correct:'ম্যালওয়্যার',
+      explain:'ফাইল লক করে মুক্তিপণ দাবি করা র‍্যানসমওয়্যার, যা ম্যালওয়্যারের একটি ধরন।' },
+    { icon:'🎭', text:'একটি অ্যাপ ইনস্টল করার পর দেখলেন এটি আপনার ক্যামেরা, মাইক্রোফোন ও কন্ট্যাক্ট লিস্টে অ্যাক্সেস নিচ্ছে অথচ এটি একটি সাধারণ ক্যালকুলেটর অ্যাপ।',
+      options:['স্পাইওয়্যার','ফেইক নিউজ','ফায়ারওয়াল','DDoS অ্যাটাক'], correct:'স্পাইওয়্যার',
+      explain:'গোপনে ব্যবহারকারীর কার্যক্রম পর্যবেক্ষণ করে তথ্য চুরিকারী সফটওয়্যারকে স্পাইওয়্যার বলে।' },
+    { icon:'🔗', text:'একটি পরিচিত ব্র্যান্ডের নামে (যেমন Bkash) নকল ওয়েবসাইট তৈরি করে ব্যবহারকারীর পিন ও পাসওয়ার্ড চুরি করা হচ্ছে।',
+      options:['ফিশিং','সাইবার বুলিং','ব্রুট ফোর্স','এনক্রিপশন'], correct:'ফিশিং',
+      explain:'বৈধ প্রতিষ্ঠানের নকল সাইট বানিয়ে তথ্য হাতিয়ে নেওয়া ফার্মিং বা ফিশিং আক্রমণের অংশ।' },
+    { icon:'📢', text:'একজন ইউটিউবার ভিডিওতে বলছেন "করোনা ভ্যাকসিন নেলে ৫G নেটওয়ার্ক মস্তিষ্কে ঢুকে যায়" এবং লক্ষ লক্ষ মানুষ শেয়ার করছে।',
+      options:['ফেইক নিউজ','হ্যাকিং','DDoS','ফায়ারওয়াল'], correct:'ফেইক নিউজ',
+      explain:'বৈজ্ঞানিক ভিত্তিহীন মিথ্যা তথ্য ইচ্ছাকৃতভাবে ছড়ানো ফেইক নিউজের অন্তর্ভুক্ত।' },
+    { icon:'💼', text:'একজন ব্যক্তি নিজেকে আপনার ব্যাংকের প্রতিনিধি বলে পরিচয় দিয়ে ফোনে আপনার OTP নম্বর জানতে চাইছে।',
+      options:['সোশ্যাল ইঞ্জিনিয়ারিং','ম্যালওয়্যার','DDoS','ফায়ারওয়াল'], correct:'সোশ্যাল ইঞ্জিনিয়ারিং',
+      explain:'মানুষের বিশ্বাসকে কাজে লাগিয়ে তথ্য হাতিয়ে নেওয়াকে সোশ্যাল ইঞ্জিনিয়ারিং বলে। ব্যাংক কখনো OTP চায় না।' },
+    { icon:'🕵️', text:'আপনার WhatsApp থেকে হঠাৎ আপনার সব বন্ধুকে একটি লিংক পাঠানো হয়েছে যা আপনি পাঠাননি।',
+      options:['অ্যাকাউন্ট হ্যাকিং','ফেইক নিউজ','DDoS','ফায়ারওয়াল'], correct:'অ্যাকাউন্ট হ্যাকিং',
+      explain:'আপনার অ্যাকাউন্ট হ্যাক হয়েছে। সাথে সাথে পাসওয়ার্ড পরিবর্তন করুন ও 2FA চালু করুন।' },
+    { icon:'🌍', text:'একটি রাজনৈতিক দলের বিরুদ্ধে মিথ্যা স্ক্রিনশট তৈরি করে সামাজিক মাধ্যমে ছড়িয়ে দেওয়া হচ্ছে নির্বাচনের আগে।',
+      options:['ফেইক নিউজ','সাইবার বুলিং','হ্যাকিং','ম্যালওয়্যার'], correct:'ফেইক নিউজ',
+      explain:'নির্বাচনী প্রভাব বিস্তারের জন্য মিথ্যা তথ্য ছড়ানো ফেইক নিউজের একটি বিপজ্জনক রূপ।' },
+    { icon:'🏦', text:'সাইবার অপরাধীরা একটি ব্যাংকের ডেটাবেস হ্যাক করে ১০ লক্ষ গ্রাহকের ক্রেডিট কার্ড নম্বর চুরি করেছে।',
+      options:['ডেটা ব্রিচ','ফিশিং','সাইবার বুলিং','ফায়ারওয়াল'], correct:'ডেটা ব্রিচ',
+      explain:'অননুমোদিত ব্যক্তির সিস্টেমে প্রবেশ করে তথ্য চুরিকে ডেটা ব্রিচ বলে। এতে ব্যক্তিগত তথ্য বিপদে পড়ে।' },
+    { icon:'🎮', text:'একটি অনলাইন গেমে কেউ চ্যাটে আপনার বাড়ির ঠিকানা ও ফোন নম্বর জানতে চাইছে এবং না দিলে হুমকি দিচ্ছে।',
+      options:['সাইবার বুলিং','ফিশিং','ম্যালওয়্যার','DDoS'], correct:'সাইবার বুলিং',
+      explain:'অনলাইনে হুমকি দেওয়া ও ব্যক্তিগত তথ্য জোর করে আদায়ের চেষ্টা সাইবার বুলিং ও সাইবার সন্ত্রাসের অন্তর্গত।' },
+    { icon:'💳', text:'আপনার অজান্তে আপনার ক্রেডিট কার্ড দিয়ে বিদেশ থেকে কেনাকাটা হয়ে গেছে। পরে জানা গেল একটি নকল ATM কার্ড রিডার আপনার কার্ডের তথ্য চুরি করেছিল।',
+      options:['কার্ড স্কিমিং','ম্যালওয়্যার','ফেইক নিউজ','সাইবার বুলিং'], correct:'কার্ড স্কিমিং',
+      explain:'ATM বা POS মেশিনে নকল ডিভাইস লাগিয়ে কার্ডের তথ্য চুরি করাকে কার্ড স্কিমিং বলে।' },
+    { icon:'📲', text:'আপনি একটি অ্যাপ ডাউনলোড করলেন যা আপনার ফোনের ব্যাটারি দ্রুত শেষ করে এবং ব্যাকগ্রাউন্ডে অন্য কম্পিউটারে আক্রমণ করার জন্য আপনার ডিভাইস ব্যবহার করছে।',
+      options:['বটনেট','ফিশিং','ফেইক নিউজ','ফায়ারওয়াল'], correct:'বটনেট',
+      explain:'হ্যাকারের নিয়ন্ত্রণে থাকা বহু ডিভাইসের নেটওয়ার্ককে বটনেট বলে, যা DDoS আক্রমণেও ব্যবহৃত হয়।' }
+  ];
+  const CYBER_SCENARIOS = pickFromBank(CYBER_SCENARIO_BANK, 10, 'cyber');
+
+  function initCyberThreatModule(){
+    const quizCard = document.getElementById('ctQuizCard');
+    if(!quizCard) return;
+    const resultCard = document.getElementById('ctResultCard');
+    const progressLabel = document.getElementById('ctProgress');
+    const progressFill = document.getElementById('ctProgressFill');
+    const scoreLabel = document.getElementById('ctScoreLabel');
+
+    let order, currentIndex, score;
+
+    function startQuiz(freshPick){
+      order = freshPick ? pickFromBank(CYBER_SCENARIO_BANK,10,'cyber') : shuffleArray(order || CYBER_SCENARIOS);
+      currentIndex = 0;
+      score = 0;
+      resultCard.style.display = 'none';
+      quizCard.style.display = 'block';
+      renderScenario();
+    }
+
+    function updateProgress(){
+      progressLabel.textContent = `দৃশ্যকল্প ${bn(Math.min(currentIndex+1,order.length))} / ${bn(order.length)}`;
+      progressFill.style.width = (currentIndex/order.length*100)+'%';
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+    }
+
+    function renderScenario(){
+      updateProgress();
+      const s = order[currentIndex];
+      const shuffledOptions = shuffleArray(s.options);
+      quizCard.innerHTML = `
+        <span class="tf-question-num">দৃশ্যকল্প ${bn(currentIndex+1)}</span>
+        <div class="ct-scenario-box"><span class="ct-scenario-icon">${s.icon}</span>${s.text}</div>
+        <div class="ct-question-label">❓ এটি কোন ধরনের ঝুঁকি?</div>
+        <div class="ct-options-grid">
+          ${shuffledOptions.map(opt=>`<button type="button" class="ct-option-btn" data-val="${opt}">${opt}</button>`).join('')}
+        </div>
+        <div id="ctDynamicArea"></div>
+      `;
+      quizCard.querySelectorAll('.ct-option-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>handlePick(btn, s));
+      });
+    }
+
+    function handlePick(pickedBtn, s){
+      const btns = Array.from(quizCard.querySelectorAll('.ct-option-btn'));
+      btns.forEach(b=>b.disabled = true);
+      const picked = pickedBtn.getAttribute('data-val');
+      const correct = picked === s.correct;
+      btns.forEach(b=>{
+        const val = b.getAttribute('data-val');
+        if(val === s.correct){ b.classList.add('correct-pick'); }
+        else if(b === pickedBtn){ b.classList.add('wrong-pick'); }
+        else { b.classList.add('dim'); }
+      });
+      if(correct){ score++; updateProgress(); window.playCorrectSound(); } else { window.playWrongSound(); }
+      showExplanation(correct, s);
+    }
+
+    function showExplanation(correct, s){
+      const boxClass = correct ? 'success-box' : 'info-box';
+      const icon = correct ? '✅' : '📘';
+      const isLast = currentIndex+1 >= order.length;
+      area.innerHTML = `
+        <div class="${boxClass}" style="margin-top:16px;"><strong>${icon} ব্যাখ্যা:</strong> ${s.explain}</div>
+        <button type="button" class="btn btn-primary tf-next-btn" id="ctNextBtn">${isLast ? 'ফলাফল দেখুন 🏁' : 'পরের দৃশ্যকল্প →'}</button>
+      `;
+      document.getElementById('ctNextBtn').addEventListener('click', goNext);
+    }
+
+    function goNext(){
+      currentIndex++;
+      if(currentIndex >= order.length){ finishQuiz(); } else { renderScenario(); }
+    }
+
+    function finishQuiz(){
+      progressFill.style.width = '100%';
+      progressLabel.textContent = `সম্পন্ন ${bn(order.length)}/${bn(order.length)}`;
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+      quizCard.style.display = 'none';
+      resultCard.style.display = 'block';
+
+      const percent = Math.round(score/order.length*100);
+      let tierIcon = '🥉', tierText = 'আরও অনুশীলন প্রয়োজন';
+      if(percent >= 80){ tierIcon = '🥇'; tierText = 'অসাধারণ! আপনি সাইবার হুমকি ভালোভাবে চিনতে পারেন'; }
+      else if(percent >= 50){ tierIcon = '🥈'; tierText = 'ভালো করেছেন! আরও একবার রিভিউ করুন'; }
+
+      resultCard.innerHTML = `
+        <div class="tf-result-icon">${tierIcon}</div>
+        <div class="tf-result-score">${bn(score)}/${bn(order.length)}</div>
+        <div class="tf-result-percent">${tierText} — ${bn(percent)}% সঠিক</div>
+        <button type="button" class="btn btn-primary" id="ctRetakeBtn">🔄 আবার দিন</button>
+      `;
+      document.getElementById('ctRetakeBtn').addEventListener('click', startQuiz);
+
+      const points = score*10;
+      const current = window.appState.modules.cyberthreat;
+      const newPoints = Math.max(points, current.points);
+      window.setModuleResult('cyberthreat', newPoints, true);
+      if(score === order.length){
+        window.celebrate();
+        window.showToast('🏆 সব দৃশ্যকল্পে সঠিক উত্তর দিয়েছেন!','success');
+      }
+    }
+
+    startQuiz();
+    const ctNewBtn = document.getElementById('ctNewQuizBtn');
+    if(ctNewBtn) ctNewBtn.addEventListener('click', ()=>{
+      startQuiz(true);
+      window.showToast('🎲 নতুন ১০টি দৃশ্যকল্প তৈরি হয়েছে!','success');
+    });
+  }
+
+  /* ===================== MODULE 5: SAFE OR UNSAFE DECISION GAME ===================== */
+  const SAFE_UNSAFE_BANK = [
+    { icon:'🆔', text:'Facebook-এ জাতীয় পরিচয়পত্র (NID) নম্বর পোস্ট করা', safe:false,
+      explain:'জাতীয় পরিচয়পত্র নম্বরের মতো গোপনীয় তথ্য সোশ্যাল মিডিয়ায় প্রকাশ করলে পরিচয় চুরি বা প্রতারণার ঝুঁকি বাড়ে।' },
+    { icon:'🔑', text:'নিজের পাসওয়ার্ড বন্ধুর সাথে শেয়ার করা', safe:false,
+      explain:'পাসওয়ার্ড অন্য কারও সাথে শেয়ার করলে আপনার অ্যাকাউন্টের নিয়ন্ত্রণ হারানোর ঝুঁকি থাকে।' },
+    { icon:'🔗', text:'অপরিচিত বা সন্দেহজনক লিংকে ক্লিক করা', safe:false,
+      explain:'অপরিচিত লিংকে ক্লিক করলে ফিশিং সাইটে চলে যাওয়া বা ম্যালওয়্যার ডাউনলোড হওয়ার ঝুঁকি থাকে।' },
+    { icon:'📲', text:'কাউকে আপনার OTP নম্বর শেয়ার করা', safe:false,
+      explain:'OTP সম্পূর্ণ ব্যক্তিগত — এটি কাউকে জানালে আপনার অ্যাকাউন্ট সহজেই হ্যাক হয়ে যেতে পারে।' },
+    { icon:'🔁', text:'সব অ্যাকাউন্টে একই পাসওয়ার্ড ব্যবহার করা', safe:false,
+      explain:'সব অ্যাকাউন্টে একই পাসওয়ার্ড ব্যবহার করলে একটি হ্যাক হলে বাকি সবগুলোও ঝুঁকিতে পড়ে।' },
+    { icon:'🔐', text:'Two-Factor Authentication (2FA) চালু রাখা', safe:true,
+      explain:'2FA চালু রাখলে পাসওয়ার্ডের পাশাপাশি একটি OTP-ও প্রয়োজন হয়, যা হ্যাক হওয়ার ঝুঁকি কমায়।' },
+    { icon:'⬆️', text:'নিয়মিত সফটওয়্যার ও অ্যাপস আপডেট রাখা', safe:true,
+      explain:'নিয়মিত আপডেটে নিরাপত্তা ত্রুটিগুলো সংশোধন হয়, যা ডিভাইসকে নতুন আক্রমণ থেকে রক্ষা করে।' },
+    { icon:'🛡️', text:'ডিভাইসে অ্যান্টিভাইরাস সফটওয়্যার ব্যবহার করা', safe:true,
+      explain:'অ্যান্টিভাইরাস সফটওয়্যার ডিভাইসকে ভাইরাস ও ম্যালওয়্যারের আক্রমণ থেকে রক্ষা করে।' },
+    { icon:'💾', text:'গুরুত্বপূর্ণ ডেটার নিয়মিত ব্যাকআপ রাখা', safe:true,
+      explain:'নিয়মিত ব্যাকআপ র‍্যানসমওয়্যার আক্রমণ বা হার্ডওয়্যার সমস্যায় তথ্য হারানোর ঝুঁকি কমায়।' },
+    { icon:'📧', text:'সন্দেহজনক ইমেইল পেলে তা রিপোর্ট করা বা ডিলিট করা', safe:true,
+      explain:'সন্দেহজনক ইমেইলে ক্লিক না করে রিপোর্ট বা ডিলিট করা ফিশিং আক্রমণ থেকে রক্ষা করে।' },
+    { icon:'📶', text:'পাবলিক Wi-Fi-এ ব্যাংকিং অ্যাপে লগইন করা', safe:false,
+      explain:'পাবলিক Wi-Fi নিরাপদ নয় — এখানে ডেটা ইন্টারসেপশনের ঝুঁকি থাকে। ব্যক্তিগত নেটওয়ার্ক ব্যবহার করুন।' },
+    { icon:'📍', text:'সোশ্যাল মিডিয়ায় সবসময় নিজের লাইভ লোকেশন শেয়ার করা', safe:false,
+      explain:'রিয়েল-টাইম লোকেশন শেয়ার করা চুরি বা অপরাধের ঝুঁকি বাড়ায় এবং গোপনীয়তা ক্ষুণ্ণ করে।' },
+    { icon:'🔒', text:'HTTPS সাইটে ক্রেডিট কার্ড তথ্য দেওয়া', safe:true,
+      explain:'HTTPS সংযোগ তথ্য এনক্রিপ্ট করে পাঠায়, যা তৃতীয় পক্ষের কাছে অপাঠ্য থাকে।' },
+    { icon:'🎁', text:'"বিনামূল্যে iPhone জিতুন" লেখা পপ-আপে ক্লিক করা', safe:false,
+      explain:'এই ধরনের পপ-আপ প্রায় সবসময়ই স্ক্যাম বা ম্যালওয়্যার ইনস্টলের ফাঁদ।' },
+    { icon:'🧹', text:'নিয়মিত ব্রাউজার কুকি ও ক্যাশ পরিষ্কার করা', safe:true,
+      explain:'নিয়মিত কুকি ও ক্যাশ পরিষ্কার করলে ব্যক্তিগত তথ্যের অপব্যবহারের ঝুঁকি কমে।' },
+    { icon:'📸', text:'অপ্রাপ্তবয়স্কের ছবি তার অনুমতি ছাড়া সামাজিক মাধ্যমে পোস্ট করা', safe:false,
+      explain:'অন্যের ছবি অনুমতি ছাড়া পোস্ট করা গোপনীয়তার লঙ্ঘন এবং সাইবার আইনে দণ্ডনীয় হতে পারে।' },
+    { icon:'🔑', text:'প্রতিটি অ্যাকাউন্টে আলাদা শক্তিশালী পাসওয়ার্ড ব্যবহার করা', safe:true,
+      explain:'আলাদা পাসওয়ার্ড ব্যবহারে একটি অ্যাকাউন্ট ক্ষতিগ্রস্ত হলেও অন্যগুলো নিরাপদ থাকে।' },
+    { icon:'💬', text:'অপরিচিত অনলাইন বন্ধুর সাথে ব্যক্তিগত তথ্য শেয়ার করা', safe:false,
+      explain:'অনলাইনে পরিচয় প্রায়ই মিথ্যা হতে পারে। অপরিচিত কাউকে ব্যক্তিগত বা আর্থিক তথ্য দেওয়া বিপজ্জনক।' },
+    { icon:'🔔', text:'অ্যাপের অতিরিক্ত অনুমতির অনুরোধ প্রত্যাখ্যান করা', safe:true,
+      explain:'একটি ক্যালকুলেটর অ্যাপের ক্যামেরা বা কন্ট্যাক্ট অ্যাক্সেস দরকার নেই। অপ্রয়োজনীয় অনুমতি না দেওয়া নিরাপদ।' },
+    { icon:'💻', text:'অফিসিয়াল অ্যাপ স্টোর থেকে অ্যাপ ডাউনলোড করা', safe:true,
+      explain:'অফিসিয়াল স্টোরের অ্যাপগুলো যাচাই করা হয়। তৃতীয় পক্ষের উৎস থেকে ডাউনলোড করা অনেক বেশি ঝুঁকিপূর্ণ।' },
+    { icon:'📋', text:'পাসওয়ার্ড একটি কাগজে লিখে মনিটরে আটকে রাখা', safe:false,
+      explain:'দৃশ্যমান স্থানে পাসওয়ার্ড লিখে রাখা মারাত্মক নিরাপত্তা ঝুঁকি। পাসওয়ার্ড ম্যানেজার ব্যবহার করুন।' },
+    { icon:'🌐', text:'ফায়ারওয়াল সক্রিয় রেখে ইন্টারনেট ব্যবহার করা', safe:true,
+      explain:'ফায়ারওয়াল নেটওয়ার্কে অননুমোদিত প্রবেশ রোধ করে এবং ক্ষতিকর ট্র্যাফিক ফিল্টার করে।' }
+  ];
+  const SAFE_UNSAFE_ITEMS = pickFromBank(SAFE_UNSAFE_BANK, 10, 'safeunsafe');
+
+  function initSafeUnsafeModule(){
+    const card = document.getElementById('suCard');
+    if(!card) return;
+    const cardIcon = document.getElementById('suCardIcon');
+    const cardText = document.getElementById('suCardText');
+    const safeBtn = document.getElementById('suSafeBtn');
+    const unsafeBtn = document.getElementById('suUnsafeBtn');
+    const dynamicArea = document.getElementById('suDynamicArea');
+    const playArea = document.getElementById('suPlayArea');
+    const resultCard = document.getElementById('suResultCard');
+    const progressLabel = document.getElementById('suProgress');
+    const progressFill = document.getElementById('suProgressFill');
+    const scoreLabel = document.getElementById('suScoreLabel');
+
+    let order, currentIndex, score, answered;
+
+    function startQuiz(freshPick){
+      order = freshPick ? pickFromBank(SAFE_UNSAFE_BANK,10,'safeunsafe') : shuffleArray(order || SAFE_UNSAFE_ITEMS);
+      currentIndex = 0;
+      score = 0;
+      resultCard.style.display = 'none';
+      playArea.style.display = 'block';
+      renderItem();
+    }
+
+    function updateProgress(){
+      progressLabel.textContent = `সিদ্ধান্ত ${bn(Math.min(currentIndex+1,order.length))} / ${bn(order.length)}`;
+      progressFill.style.width = (currentIndex/order.length*100)+'%';
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+    }
+
+    function renderItem(){
+      updateProgress();
+      answered = false;
+      const item = order[currentIndex];
+      cardIcon.textContent = item.icon;
+      cardText.textContent = item.text;
+      card.style.transition = 'none';
+      card.style.transform = '';
+      card.style.borderColor = '';
+      card.style.background = '';
+      card.classList.remove('su-card-correct','su-card-wrong');
+      safeBtn.disabled = false; unsafeBtn.disabled = false;
+      safeBtn.classList.remove('correct-pick','wrong-pick');
+      unsafeBtn.classList.remove('correct-pick','wrong-pick');
+      dynamicArea.innerHTML = '';
+    }
+
+    function handleChoice(choiceIsSafe){
+      if(answered) return;
+      answered = true;
+      safeBtn.disabled = true; unsafeBtn.disabled = true;
+      const item = order[currentIndex];
+      const correct = choiceIsSafe === item.safe;
+      const correctBtn = item.safe ? safeBtn : unsafeBtn;
+      const pickedBtn = choiceIsSafe ? safeBtn : unsafeBtn;
+      correctBtn.classList.add('correct-pick');
+      if(pickedBtn !== correctBtn) pickedBtn.classList.add('wrong-pick');
+      card.classList.add(correct ? 'su-card-correct' : 'su-card-wrong');
+      if(correct){ score++; window.playCorrectSound(); } else { window.playWrongSound(); }
+      updateProgress();
+      showExplanation(correct, item);
+    }
+
+    function showExplanation(correct, item){
+      const boxClass = correct ? 'success-box' : 'info-box';
+      const icon = correct ? '✅' : '📘';
+      const isLast = currentIndex+1 >= order.length;
+      dynamicArea.innerHTML = `
+        <div class="${boxClass}" style="margin-top:18px;"><strong>${icon} ব্যাখ্যা:</strong> ${item.explain}</div>
+        <button type="button" class="btn btn-primary tf-next-btn" id="suNextBtn">${isLast ? 'ফলাফল দেখুন 🏁' : 'পরের সিদ্ধান্ত →'}</button>
+      `;
+      document.getElementById('suNextBtn').addEventListener('click', goNext);
+    }
+
+    function goNext(){
+      currentIndex++;
+      if(currentIndex >= order.length){ finishQuiz(); } else { renderItem(); }
+    }
+
+    function finishQuiz(){
+      progressFill.style.width = '100%';
+      progressLabel.textContent = `সম্পন্ন ${bn(order.length)}/${bn(order.length)}`;
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+      playArea.style.display = 'none';
+      resultCard.style.display = 'block';
+
+      const percent = Math.round(score/order.length*100);
+      let tierIcon = '🥉', tierText = 'আরও অনুশীলন প্রয়োজন';
+      if(percent >= 80){ tierIcon = '🥇'; tierText = 'অসাধারণ! আপনি একজন সচেতন ইন্টারনেট ব্যবহারকারী'; }
+      else if(percent >= 50){ tierIcon = '🥈'; tierText = 'ভালো করেছেন! আরও একবার রিভিউ করুন'; }
+
+      resultCard.innerHTML = `
+        <div class="tf-result-icon">${tierIcon}</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink-faint);margin-bottom:6px;">সাইবার সেফটি স্কোর</div>
+        <div class="tf-result-score">${bn(percent)}%</div>
+        <div class="tf-result-percent">${bn(score)}/${bn(order.length)} সঠিক — ${tierText}</div>
+        <button type="button" class="btn btn-primary" id="suRetakeBtn">🔄 আবার দিন</button>
+      `;
+      document.getElementById('suRetakeBtn').addEventListener('click', startQuiz);
+
+      const points = score*10;
+      const current = window.appState.modules.safeunsafe;
+      const newPoints = Math.max(points, current.points);
+      window.setModuleResult('safeunsafe', newPoints, true);
+      if(score === order.length){
+        window.celebrate();
+        window.showToast('🏆 ১০০% সাইবার সেফটি স্কোর!','success');
+      }
+    }
+
+    card.addEventListener('pointerdown', function(e){
+      if(answered) return;
+      e.preventDefault();
+      const startX = e.clientX;
+      let dragging = false;
+      try{ card.setPointerCapture(e.pointerId); }catch(err){}
+      card.style.transition = 'none';
+
+      function onMove(ev){
+        const dx = ev.clientX - startX;
+        if(!dragging && Math.abs(dx) > 6) dragging = true;
+        if(dragging){
+          const rotate = dx/18;
+          card.style.transform = `translateX(${dx}px) rotate(${rotate}deg)`;
+          const intensity = Math.min(Math.abs(dx)/120, 1);
+          if(dx > 0){
+            card.style.borderColor = `rgba(46,217,166,${0.3+intensity*0.7})`;
+            card.style.background = `linear-gradient(0deg, rgba(46,217,166,${intensity*0.12}), #fff)`;
+          } else if(dx < 0){
+            card.style.borderColor = `rgba(255,84,112,${0.3+intensity*0.7})`;
+            card.style.background = `linear-gradient(0deg, rgba(255,84,112,${intensity*0.12}), #fff)`;
+          }
+        }
+      }
+
+      function onUp(ev){
+        try{ card.releasePointerCapture(ev.pointerId); }catch(err){}
+        card.removeEventListener('pointermove', onMove);
+        card.removeEventListener('pointerup', onUp);
+        card.removeEventListener('pointercancel', onUp);
+        card.style.transition = 'transform .3s ease, border-color .3s, background .3s';
+
+        const dx = ev.clientX - startX;
+        if(dragging && Math.abs(dx) > 90 && !answered){
+          const flyTo = dx > 0 ? 700 : -700;
+          card.style.transform = `translateX(${flyTo}px) rotate(${dx/18}deg)`;
+          handleChoice(dx > 0);
+          setTimeout(()=>{
+            card.style.transition = 'none';
+            card.style.transform = '';
+            card.style.borderColor = '';
+            card.style.background = '';
+          }, 320);
+        } else {
+          card.style.transform = '';
+          card.style.borderColor = '';
+          card.style.background = '';
+        }
+      }
+
+      card.addEventListener('pointermove', onMove);
+      card.addEventListener('pointerup', onUp);
+      card.addEventListener('pointercancel', onUp);
+    });
+
+    safeBtn.addEventListener('click', ()=>handleChoice(true));
+    unsafeBtn.addEventListener('click', ()=>handleChoice(false));
+
+    startQuiz();
+    const suNewBtn = document.getElementById('suNewQuizBtn');
+    if(suNewBtn) suNewBtn.addEventListener('click', ()=>{
+      startQuiz(true);
+      window.showToast('🎲 নতুন ১০টি সিদ্ধান্ত তৈরি হয়েছে!','success');
+    });
+  }
+
+  /* ===================== MODULE 6: THREAT VS PROTECTION SORTING GAME ===================== */
+  const SORT_ITEM_BANK = [
+    { id:'malware',     label:'Malware',             cat:'threat' },
+    { id:'cyberbully',  label:'Cyber Bullying',      cat:'threat' },
+    { id:'fakenews',    label:'Fake News',           cat:'threat' },
+    { id:'bruteforce',  label:'Brute Force Attack',  cat:'threat' },
+    { id:'phishing',    label:'Phishing',            cat:'threat' },
+    { id:'ddos',        label:'DDoS Attack',         cat:'threat' },
+    { id:'ransomware',  label:'Ransomware',          cat:'threat' },
+    { id:'spyware',     label:'Spyware',             cat:'threat' },
+    { id:'firewall',    label:'Firewall',            cat:'protection' },
+    { id:'antivirus',   label:'Antivirus',           cat:'protection' },
+    { id:'tfa',         label:'2FA',                 cat:'protection' },
+    { id:'encryption',  label:'Encryption',          cat:'protection' },
+    { id:'vpn',         label:'VPN',                 cat:'protection' },
+    { id:'spamfilter',  label:'Spam Filter',         cat:'protection' },
+    { id:'strongpw',    label:'Strong Password',     cat:'practice' },
+    { id:'swupdate',    label:'Software Update',     cat:'practice' },
+    { id:'databackup',  label:'Data Backup',         cat:'practice' },
+    { id:'verifylink',  label:'লিংক যাচাই করা',      cat:'practice' },
+    { id:'logout',      label:'পাবলিক ডিভাইস থেকে লগআউট', cat:'practice' },
+    { id:'reportscam',  label:'সন্দেহজনক বার্তা রিপোর্ট করা', cat:'practice' }
+  ];
+  function pickSortingItems(){
+    const threats = SORT_ITEM_BANK.filter(i=>i.cat==='threat');
+    const protections = SORT_ITEM_BANK.filter(i=>i.cat==='protection');
+    const practices = SORT_ITEM_BANK.filter(i=>i.cat==='practice');
+    return [
+      ...pickFromBank(threats, 4, 'sort_threat'),
+      ...pickFromBank(protections, 3, 'sort_protection'),
+      ...pickFromBank(practices, 3, 'sort_practice')
+    ];
+  }
+
+  function initSortingModule(){
+    const poolEl = document.getElementById('srtPool');
+    if(!poolEl) return;
+    const zoneBodyEls = {
+      threat: document.getElementById('srtZoneThreatBody'),
+      protection: document.getElementById('srtZoneProtectionBody'),
+      practice: document.getElementById('srtZonePracticeBody')
+    };
+    const scoreLabel = document.getElementById('srtScoreLabel');
+    const retryBtn = document.getElementById('srtRetryBtn');
+    const completeBanner = document.getElementById('srtCompleteBanner');
+
+    let order, placed, correctCount, selectedChipId;
+
+    function catTotal(cat){ return order.filter(i=>i.cat===cat).length; }
+
+    function resetGame(){
+      order = pickSortingItems();
+      placed = new Set();
+      correctCount = 0;
+      selectedChipId = null;
+      completeBanner.style.display = 'none';
+      Object.values(zoneBodyEls).forEach(el=>el.innerHTML = '');
+      renderPool();
+      updateZoneCounts();
+      updateScore();
+    }
+
+    function updateScore(){
+      scoreLabel.textContent = `${bn(correctCount)}/${bn(order.length)}`;
+    }
+
+    function updateZoneCounts(){
+      ['threat','protection','practice'].forEach(catId=>{
+        const placedCount = order.filter(i=>i.cat===catId && placed.has(i.id)).length;
+        document.getElementById('srtCount-'+catId).textContent = `${bn(placedCount)}/${bn(catTotal(catId))}`;
+      });
+    }
+
+    function persistProgress(){
+      const points = correctCount*10;
+      const current = window.appState.modules.sorting;
+      const completed = correctCount === order.length;
+      if(points > current.points || (completed && !current.completed)){
+        window.setModuleResult('sorting', Math.max(points, current.points), completed || current.completed);
+      }
+    }
+
+    function clearSelection(){
+      if(selectedChipId){
+        const prev = poolEl.querySelector(`[data-id="${selectedChipId}"]`);
+        if(prev) prev.classList.remove('selected');
+      }
+      selectedChipId = null;
+    }
+
+    function attemptPlace(itemId, zoneCatId, chipEl, zoneContainerEl){
+      if(!zoneCatId){
+        if(chipEl){ chipEl.classList.add('wrong-shake'); setTimeout(()=>chipEl.classList.remove('wrong-shake'),400); }
+        return;
+      }
+      const item = order.find(i=>i.id===itemId);
+      if(!item || placed.has(itemId)) return;
+
+      if(item.cat === zoneCatId){
+        placed.add(itemId);
+        correctCount++;
+        const tag = document.createElement('div');
+        tag.className = 'srt-placed-tag';
+        tag.textContent = '✓ '+item.label;
+        zoneBodyEls[zoneCatId].appendChild(tag);
+        if(zoneContainerEl){ zoneContainerEl.classList.add('zone-pulse'); setTimeout(()=>zoneContainerEl.classList.remove('zone-pulse'),400); }
+        updateScore();
+        updateZoneCounts();
+        window.playCorrectSound();
+        window.showToast('✅ সঠিক জায়গায় রাখা হয়েছে!','success');
+        persistProgress();
+        renderPool();
+        if(correctCount === order.length){
+          completeBanner.style.display = 'block';
+          window.celebrate();
+          window.showToast('🏆 সব কার্ড সঠিকভাবে সাজানো হয়েছে!','success');
+        }
+      } else {
+        if(zoneContainerEl){ zoneContainerEl.classList.add('wrong-flash'); setTimeout(()=>zoneContainerEl.classList.remove('wrong-flash'),500); }
+        if(chipEl){ chipEl.classList.add('wrong-shake'); setTimeout(()=>chipEl.classList.remove('wrong-shake'),400); }
+        window.playWrongSound();
+        window.showToast('❌ এটি সঠিক বিভাগ নয়, আবার চেষ্টা করুন','error');
+      }
+    }
+
+    function toggleSelect(itemId, chipEl){
+      if(selectedChipId === itemId){
+        chipEl.classList.remove('selected');
+        selectedChipId = null;
+        return;
+      }
+      clearSelection();
+      selectedChipId = itemId;
+      chipEl.classList.add('selected');
+    }
+
+    function bindChip(chipEl){
+      const itemId = chipEl.getAttribute('data-id');
+      chipEl.addEventListener('pointerdown', function(e){
+        e.preventDefault();
+        const startX = e.clientX, startY = e.clientY;
+        let dragging = false;
+        try{ chipEl.setPointerCapture(e.pointerId); }catch(err){}
+
+        function onMove(ev){
+          const dx = ev.clientX-startX, dy = ev.clientY-startY;
+          if(!dragging && Math.hypot(dx,dy) > 6){
+            dragging = true;
+            chipEl.classList.add('dragging');
+            chipEl.style.pointerEvents = 'none';
+          }
+          if(dragging){
+            chipEl.style.transform = `translate(${dx}px,${dy}px)`;
+            const target = document.elementFromPoint(ev.clientX, ev.clientY);
+            const zone = target ? target.closest('.srt-zone') : null;
+            document.querySelectorAll('.srt-zone').forEach(z=>z.classList.remove('hover-target'));
+            if(zone) zone.classList.add('hover-target');
+          }
+        }
+
+        function onUp(ev){
+          try{ chipEl.releasePointerCapture(ev.pointerId); }catch(err){}
+          chipEl.removeEventListener('pointermove', onMove);
+          chipEl.removeEventListener('pointerup', onUp);
+          chipEl.removeEventListener('pointercancel', onUp);
+
+          if(dragging){
+            chipEl.style.transform = '';
+            chipEl.classList.remove('dragging');
+            chipEl.style.pointerEvents = '';
+            document.querySelectorAll('.srt-zone').forEach(z=>z.classList.remove('hover-target'));
+            const target = document.elementFromPoint(ev.clientX, ev.clientY);
+            const zone = target ? target.closest('.srt-zone') : null;
+            attemptPlace(itemId, zone ? zone.getAttribute('data-cat') : null, chipEl, zone);
+          } else {
+            toggleSelect(itemId, chipEl);
+          }
+        }
+
+        chipEl.addEventListener('pointermove', onMove);
+        chipEl.addEventListener('pointerup', onUp);
+        chipEl.addEventListener('pointercancel', onUp);
+      });
+      chipEl.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          toggleSelect(itemId, chipEl);
+        }
+      });
+    }
+
+    function bindZoneClick(zoneEl){
+      zoneEl.addEventListener('click', function(){
+        if(!selectedChipId) return;
+        const chipEl = poolEl.querySelector(`[data-id="${selectedChipId}"]`);
+        const itemId = selectedChipId;
+        clearSelection();
+        attemptPlace(itemId, zoneEl.getAttribute('data-cat'), chipEl, zoneEl);
+      });
+      zoneEl.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          zoneEl.click();
+        }
+      });
+    }
+
+    function renderPool(){
+      const remaining = order.filter(i=>!placed.has(i.id));
+      poolEl.innerHTML = remaining.map(i=>`<div class="match-chip" data-id="${i.id}" tabindex="0">${i.label}</div>`).join('');
+      poolEl.querySelectorAll('.match-chip').forEach(bindChip);
+    }
+
+    document.querySelectorAll('.srt-zone').forEach(bindZoneClick);
+    retryBtn.addEventListener('click', resetGame);
+
+    resetGame();
+  }
+
+  /* ===================== MODULE 7: TROUBLESHOOTING SIMULATOR ===================== */
+  const TS_SCENARIOS = [
+    { icon:'🔌', problem:'কম্পিউটার চালু হচ্ছে না।',
+      options:['পাওয়ার ক্যাবল চেক করুন','অ্যান্টিভাইরাস ইনস্টল করুন','ব্রাউজার খুলুন','Facebook রিস্টার্ট করুন'],
+      correct:'পাওয়ার ক্যাবল চেক করুন',
+      explain:'মেইন পাওয়ার ক্যাবলের সংযোগ ঢিলে আছে কিনা দেখুন। মেইন বোর্ডে পাওয়ার না আসলে PSU (Power Supply Unit) পরিবর্তন করতে হতে পারে।',
+      note:'সিস্টেম চালু না হলে প্রথমেই পাওয়ার সংযোগ পরীক্ষা করা উচিত — এটি সবচেয়ে সাধারণ কারণ।' },
+    { icon:'🖥️', problem:'Monitor-এ Display আসছে না, কিন্তু সিস্টেম চলছে।',
+      options:['ডেটা ক্যাবল ও র‍্যাম চেক করুন','ওয়ালপেপার পরিবর্তন করুন','র‍্যাম খুলে ফেলে দিন','নতুন গেম ইনস্টল করুন'],
+      correct:'ডেটা ক্যাবল ও র‍্যাম চেক করুন',
+      explain:'মনিটরের ডেটা ক্যাবল পরীক্ষা করুন। প্রয়োজনে র‍্যাম খুলে ইরেজার দিয়ে কানেক্টর পরিষ্কার করে আবার লাগান।',
+      note:'র‍্যাম ছাড়া চালু করলে Beep সাউন্ড শোনা গেলে বুঝবেন মাদারবোর্ড ঠিক আছে, সমস্যা র‍্যামে।' },
+    { icon:'⌨️', problem:'Keyboard বা Mouse কাজ করছে না।',
+      options:['USB পোর্ট চেক করুন','Paint খুলুন','Chrome রিস্টার্ট করুন','ওয়াইফাই বন্ধ করুন'],
+      correct:'USB পোর্ট চেক করুন',
+      explain:'পোর্টের সংযোগ পরীক্ষা করে অন্য USB পোর্টে লাগিয়ে দেখুন। বায়োসে ডিজেবল করা থাকলে এনাবল করুন।',
+      note:'সমস্যা না মিটলে নতুন কীবোর্ড বা মাউস লাগিয়ে পরীক্ষা করুন।' },
+    { icon:'🌡️', problem:'সিস্টেম অত্যন্ত গরম হয়ে হঠাৎ বন্ধ হয়ে যায়।',
+      options:['কুলিং ফ্যান ও হিটসিংক পরিষ্কার করুন','নতুন ওয়ালপেপার লাগান','র‍্যাম পরিবর্তন করুন','ব্রাউজার আপডেট করুন'],
+      correct:'কুলিং ফ্যান ও হিটসিংক পরিষ্কার করুন',
+      explain:'কেসিং খুলে CPU কুলিং ফ্যান ও হিটসিংক থেকে জমে থাকা ধুলোবালি পরিষ্কার করে পুনরায় ভালোভাবে লাগান।',
+      note:'ধুলোবালি জমে ফ্যান বন্ধ হয়ে গেলে অতিরিক্ত গরমে সিস্টেম বন্ধ হয়ে যেতে পারে।' },
+    { icon:'🔋', problem:'তারিখ ও সময় ঠিক থাকে না, BIOS সেটিংস সেভ হয় না।',
+      options:['CMOS ব্যাটারি পরিবর্তন করুন','উইন্ডোজ রিইনস্টল করুন','মাউস পরিবর্তন করুন','ইন্টারনেট সংযোগ চেক করুন'],
+      correct:'CMOS ব্যাটারি পরিবর্তন করুন',
+      explain:'মাদারবোর্ডের CMOS ব্যাটারির মেয়াদ শেষ হলে এই সমস্যা হয়। একটি নতুন কয়েন ব্যাটারি লাগিয়ে দিন।',
+      note:'CMOS ব্যাটারি কম্পিউটার বন্ধ থাকলেও তারিখ-সময় ও BIOS সেটিংস মনে রাখতে সাহায্য করে।' },
+    { icon:'💽', problem:'Boot Disk Failure বা Hard Disk Not Found দেখাচ্ছে।',
+      options:['হার্ডডিস্কের ক্যাবল সংযোগ চেক করুন','নতুন থিম ইনস্টল করুন','ফায়ারওয়াল বন্ধ করুন','ব্রাউজার হিস্ট্রি মুছুন'],
+      correct:'হার্ডডিস্কের ক্যাবল সংযোগ চেক করুন',
+      explain:'হার্ডডিস্কের পাওয়ার ও ডেটা ক্যাবল লুজ আছে কিনা দেখুন। BIOS-এ হার্ডডিস্ক অটো-ডিটেক্ট করছে কিনা পরীক্ষা করুন।',
+      note:'সমাধান না হলে অন্য কম্পিউটারে হার্ডডিস্কটি চেক করুন, প্রয়োজনে নতুন হার্ডডিস্ক কিনুন।' },
+    { icon:'🧠', problem:'একসাথে অনেক প্রোগ্রাম খুললে "Out of Memory" দেখায়।',
+      options:['অধিক ক্ষমতার RAM ব্যবহার করুন','মনিটর পরিবর্তন করুন','কীবোর্ড পরিষ্কার করুন','ওয়াইফাই রাউটার রিস্টার্ট করুন'],
+      correct:'অধিক ক্ষমতার RAM ব্যবহার করুন',
+      explain:'একসাথে অতিরিক্ত বা ভারী প্রোগ্রাম চালালে এই সমস্যা হয়। মাদারবোর্ডে বেশি ক্ষমতার RAM লাগালে সমস্যা দূর হয়।',
+      note:'RAM কম থাকলে একসাথে বেশি প্রোগ্রাম চালানো কঠিন হয়ে পড়ে।' },
+    { icon:'⚡', problem:'কম্পিউটারের মেটাল অংশে হাত লাগলে শক করে।',
+      options:['প্রোপার আর্থিং (Earthing) করিয়ে নিন','নতুন মাউস কিনুন','উইন্ডোজ আপডেট করুন','RAM পরিষ্কার করুন'],
+      correct:'প্রোপার আর্থিং (Earthing) করিয়ে নিন',
+      explain:'কম্পিউটারটি প্রোপারলি আর্থিং করা নেই। একজন ইলেকট্রিশিয়ান দ্বারা দেওয়ালে বা মাটিতে যথাযথ আর্থিং করিয়ে নিন।',
+      note:'বৈদ্যুতিক শক থেকে বাঁচতে কম্পিউটারের পাওয়ার সংযোগে আর্থিং থাকা আবশ্যক।' },
+    { icon:'🐢', problem:'উইন্ডোজ চালানোর সময় বারবার হ্যাং হয়ে যায়।',
+      options:['আপডেটেড অ্যান্টিভাইরাস দিয়ে স্ক্যান করুন','নতুন ওয়ালপেপার লাগান','স্পিকার পরিবর্তন করুন','ফন্ট পরিবর্তন করুন'],
+      correct:'আপডেটেড অ্যান্টিভাইরাস দিয়ে স্ক্যান করুন',
+      explain:'আপডেটেড অ্যান্টিভাইরাস দিয়ে হার্ডডিস্ক স্ক্যান করে ভাইরাস ক্লিন করুন। সমাধান না হলে ডেটা ব্যাকআপ নিয়ে নতুন করে উইন্ডোজ ইনস্টল করুন।',
+      note:'ভাইরাস আক্রমণ উইন্ডোজ হ্যাং হওয়ার একটি সাধারণ কারণ।' },
+    { icon:'🖨️', problem:'প্রিন্টারে প্রিন্ট হচ্ছে না।',
+      options:['ক্যাবল সংযোগ ও কাগজ/কালি চেক করুন','প্রিন্টার বিক্রি করে দিন','নতুন কীবোর্ড কিনুন','ব্রাউজার বন্ধ করুন'],
+      correct:'ক্যাবল সংযোগ ও কাগজ/কালি চেক করুন',
+      explain:'সঠিক প্রিন্টার মডেল সিলেক্ট করা আছে কিনা, পাওয়ার ও ডেটা ক্যাবল ঠিক আছে কিনা দেখুন। কাগজ আটকে আছে কিনা বা কালি শেষ কিনা পরীক্ষা করুন।',
+      note:'হলুদ বা লাল বাতি জ্বললে প্রিন্টারের রিসেট বাটনে চাপ দিন বা ড্রাইভার পুনরায় ইনস্টল করুন।' }
+  ];
+
+  const DECISION_TREE = {
+    start: {
+      icon:'🖥️',
+      text:'সমস্যা: কম্পিউটার চালু হচ্ছে না। পাওয়ার বাটনে চাপ দিলে কোনো লাইট জ্বলে বা ফ্যান ঘোরে কি?',
+      options:[
+        {label:'হ্যাঁ, লাইট/ফ্যান চলে', next:'powerOnNoBoot'},
+        {label:'না, কিছুই হয় না', next:'cableCheck'}
+      ]
+    },
+    cableCheck:{
+      icon:'🔌',
+      text:'পাওয়ার ক্যাবলের সংযোগ ঠিকভাবে লাগানো আছে এবং সকেটে কারেন্ট আছে কি?',
+      options:[
+        {label:'হ্যাঁ, ক্যাবল ঠিক আছে', next:'psuCheck'},
+        {label:'না, ক্যাবল লুজ ছিল', next:'solvedCable'}
+      ]
+    },
+    solvedCable:{
+      icon:'✅', isEnd:true,
+      text:'সমাধান! ক্যাবলটি শক্তভাবে লাগিয়ে আবার চালু করার চেষ্টা করুন — এতেই কম্পিউটার চালু হয়ে যাবে।'
+    },
+    psuCheck:{
+      icon:'⚡', isEnd:true,
+      text:'ক্যাবল ঠিক থাকলেও পাওয়ার না আসলে Power Supply Unit (PSU) ত্রুটিপূর্ণ হতে পারে। PSU পরিবর্তন করুন অথবা একজন টেকনিশিয়ান বা সার্ভিস সেন্টারের সাহায্য নিন।'
+    },
+    powerOnNoBoot:{
+      icon:'💡',
+      text:'পাওয়ার ঠিক আছে। মনিটরে কোনো ছবি বা ডিসপ্লে দেখা যাচ্ছে কি?',
+      options:[
+        {label:'হ্যাঁ, ডিসপ্লে দেখা যাচ্ছে', next:'solvedBoot'},
+        {label:'না, স্ক্রিন কালো', next:'ramCheck'}
+      ]
+    },
+    solvedBoot:{
+      icon:'✅', isEnd:true,
+      text:'আপনার কম্পিউটার আসলে ঠিকভাবেই চালু হচ্ছে! সমস্যাটি অন্য কিছু হতে পারে — "দৃশ্যকল্প অনুশীলন" ট্যাবের অন্য সমস্যাগুলো দেখুন।'
+    },
+    ramCheck:{
+      icon:'🧩', isEnd:true,
+      text:'পাওয়ার আসলেও ডিসপ্লে না আসলে RAM বা ডেটা ক্যাবলে সমস্যা থাকতে পারে। কম্পিউটার বন্ধ করে RAM খুলে ইরেজার দিয়ে কানেক্টর পরিষ্কার করে আবার লাগান এবং মনিটরের ডেটা ক্যাবল পরীক্ষা করুন।'
+    }
+  };
+
+  function initTroubleshootModule(){
+    const tabBtns = document.querySelectorAll('.ts-tab-btn');
+    if(!tabBtns.length) return;
+    const panelScenario = document.getElementById('tsPanelScenario');
+    const panelTree = document.getElementById('tsPanelTree');
+
+    tabBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tabBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.getAttribute('data-tab');
+        panelScenario.classList.toggle('active', tab === 'scenario');
+        panelTree.classList.toggle('active', tab === 'tree');
+        panelScenario.style.display = tab === 'scenario' ? 'block' : 'none';
+        panelTree.style.display = tab === 'tree' ? 'block' : 'none';
+      });
+    });
+
+    /* ---- Scenario quiz (mirrors module 4's pattern, plus a learning-note box) ---- */
+    const quizCard = document.getElementById('tsQuizCard');
+    const resultCard = document.getElementById('tsResultCard');
+    const progressLabel = document.getElementById('tsProgress');
+    const progressFill = document.getElementById('tsProgressFill');
+    const scoreLabel = document.getElementById('tsScoreLabel');
+
+    let order, currentIndex, score;
+
+    function startQuiz(){
+      order = shuffleArray(TS_SCENARIOS);
+      currentIndex = 0;
+      score = 0;
+      resultCard.style.display = 'none';
+      quizCard.style.display = 'block';
+      renderScenario();
+    }
+
+    function updateProgress(){
+      progressLabel.textContent = `সমস্যা ${bn(Math.min(currentIndex+1,order.length))} / ${bn(order.length)}`;
+      progressFill.style.width = (currentIndex/order.length*100)+'%';
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+    }
+
+    function renderScenario(){
+      updateProgress();
+      const s = order[currentIndex];
+      const shuffledOptions = shuffleArray(s.options);
+      quizCard.innerHTML = `
+        <span class="tf-question-num">সমস্যা ${bn(currentIndex+1)}</span>
+        <div class="ct-scenario-box"><span class="ct-scenario-icon">${s.icon}</span>${s.problem}</div>
+        <div class="ct-question-label">🛠️ সমাধানের জন্য প্রথমে কী করবেন?</div>
+        <div class="ct-options-grid">
+          ${shuffledOptions.map(opt=>`<button type="button" class="ct-option-btn" data-val="${opt}">${opt}</button>`).join('')}
+        </div>
+        <div id="tsDynamicArea"></div>
+      `;
+      quizCard.querySelectorAll('.ct-option-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>handlePick(btn, s));
+      });
+    }
+
+    function handlePick(pickedBtn, s){
+      const btns = Array.from(quizCard.querySelectorAll('.ct-option-btn'));
+      btns.forEach(b=>b.disabled = true);
+      const picked = pickedBtn.getAttribute('data-val');
+      const correct = picked === s.correct;
+      btns.forEach(b=>{
+        const val = b.getAttribute('data-val');
+        if(val === s.correct){ b.classList.add('correct-pick'); }
+        else if(b === pickedBtn){ b.classList.add('wrong-pick'); }
+        else { b.classList.add('dim'); }
+      });
+      if(correct){ score++; updateProgress(); window.playCorrectSound(); } else { window.playWrongSound(); }
+      showExplanation(correct, s);
+    }
+
+    function showExplanation(correct, s){
+      const area = document.getElementById('tsDynamicArea');
+      const boxClass = correct ? 'success-box' : 'info-box';
+      const icon = correct ? '✅' : '📘';
+      const isLast = currentIndex+1 >= order.length;
+      area.innerHTML = `
+        <div class="${boxClass}" style="margin-top:16px;"><strong>${icon} ব্যাখ্যা:</strong> ${s.explain}</div>
+        <div class="learn-note-box"><strong>📌 শেখার পরামর্শ:</strong> ${s.note}</div>
+        <button type="button" class="btn btn-primary tf-next-btn" id="tsNextBtn">${isLast ? 'ফলাফল দেখুন 🏁' : 'পরের সমস্যা →'}</button>
+      `;
+      document.getElementById('tsNextBtn').addEventListener('click', goNext);
+    }
+
+    function goNext(){
+      currentIndex++;
+      if(currentIndex >= order.length){ finishQuiz(); } else { renderScenario(); }
+    }
+
+    function finishQuiz(){
+      progressFill.style.width = '100%';
+      progressLabel.textContent = `সম্পন্ন ${bn(order.length)}/${bn(order.length)}`;
+      scoreLabel.textContent = `${bn(score)}/${bn(order.length)}`;
+      quizCard.style.display = 'none';
+      resultCard.style.display = 'block';
+
+      const percent = Math.round(score/order.length*100);
+      let tierIcon = '🥉', tierText = 'আরও অনুশীলন প্রয়োজন';
+      if(percent >= 80){ tierIcon = '🥇'; tierText = 'অসাধারণ! আপনি একজন দক্ষ ট্রাবলশুটার'; }
+      else if(percent >= 50){ tierIcon = '🥈'; tierText = 'ভালো করেছেন! আরও একবার রিভিউ করুন'; }
+
+      resultCard.innerHTML = `
+        <div class="tf-result-icon">${tierIcon}</div>
+        <div class="tf-result-score">${bn(score)}/${bn(order.length)}</div>
+        <div class="tf-result-percent">${tierText} — ${bn(percent)}% সঠিক</div>
+        <button type="button" class="btn btn-primary" id="tsRetakeBtn">🔄 আবার দিন</button>
+      `;
+      document.getElementById('tsRetakeBtn').addEventListener('click', startQuiz);
+
+      const points = score*10;
+      const current = window.appState.modules.troubleshoot;
+      const newPoints = Math.max(points, current.points);
+      window.setModuleResult('troubleshoot', newPoints, true);
+      if(score === order.length){
+        window.celebrate();
+        window.showToast('🏆 সব সমস্যার সঠিক সমাধান দিয়েছেন!','success');
+      }
+    }
+
+    startQuiz();
+
+    /* ---- Decision tree simulator ---- */
+    const treeNodeEl = document.getElementById('tsTreeNode');
+    const breadcrumbEl = document.getElementById('tsTreeBreadcrumb');
+
+    function renderTree(nodeId, pathIcons){
+      const node = DECISION_TREE[nodeId];
+      breadcrumbEl.innerHTML = pathIcons.map((ic,i)=>
+        (i>0 ? '<span class="ts-tree-crumb crumb-arrow">→</span>' : '') + `<span class="ts-tree-crumb">${ic}</span>`
+      ).join('');
+
+      if(node.isEnd){
+        treeNodeEl.innerHTML = `
+          <span class="ts-tree-icon">${node.icon}</span>
+          <div class="success-box">${node.text}</div>
+          <button type="button" class="btn btn-primary ts-tree-restart-btn" id="tsTreeRestartBtn">🔄 আবার শুরু করুন</button>
+        `;
+        document.getElementById('tsTreeRestartBtn').addEventListener('click', ()=>{
+          renderTree('start', [DECISION_TREE.start.icon]);
+        });
+      } else {
+        treeNodeEl.innerHTML = `
+          <span class="ts-tree-icon">${node.icon}</span>
+          <div class="ts-tree-text">${node.text}</div>
+          <div class="ts-tree-options">
+            ${node.options.map(opt=>`<button type="button" class="ts-tree-opt-btn" data-next="${opt.next}">${opt.label}</button>`).join('')}
+          </div>
+        `;
+        treeNodeEl.querySelectorAll('.ts-tree-opt-btn').forEach(btn=>{
+          btn.addEventListener('click', ()=>{
+            const nextId = btn.getAttribute('data-next');
+            renderTree(nextId, [...pathIcons, DECISION_TREE[nextId].icon]);
+          });
+        });
+      }
+    }
+
+    renderTree('start', [DECISION_TREE.start.icon]);
+  }
+
+  /* ===================== FINAL ASSESSMENT PAGE ===================== */
+  const FINAL_MODULE_META = [
+    { id:'password',     icon:'🔐',     name:'পাসওয়ার্ড পরীক্ষক' },
+    { id:'match',         icon:'🔗',     name:'মিল করুন' },
+    { id:'truefalse',     icon:'✅',     name:'সত্য/মিথ্যা কুইজ' },
+    { id:'cyberthreat',   icon:'🦠',     name:'সাইবার হুমকি চিনুন' },
+    { id:'safeunsafe',    icon:'🛡️',    name:'নিরাপদ নাকি অনিরাপদ' },
+    { id:'sorting',       icon:'🦠🛡️',  name:'বাছাই খেলা' },
+    { id:'troubleshoot',  icon:'🔧',     name:'সমস্যা সমাধান' }
+  ];
+  const FINAL_BADGE_TIERS = [
+    { tier:'bronze', icon:'🥉', label:'Beginner',              sub:'নবিস' },
+    { tier:'silver', icon:'🥈', label:'Cyber Learner',         sub:'সাইবার শিক্ষার্থী' },
+    { tier:'gold',   icon:'🥇', label:'Cyber Security Expert', sub:'সাইবার সিকিউরিটি বিশেষজ্ঞ' }
+  ];
+  const CERT_NAME_KEY = 'ictPlatform_certName';
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+
+  function initFinalModule(){
+    const totalScoreEl = document.getElementById('finalTotalScore');
+    if(!totalScoreEl) return;
+
+    function getCurrentTier(ratingPercent, completedCount){
+      if(completedCount === FINAL_MODULE_META.length && ratingPercent >= 80) return 'gold';
+      if(completedCount >= 4 || ratingPercent >= 50) return 'silver';
+      return 'bronze';
+    }
+
+    function formatBnDate(){
+      const months = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+      const d = new Date();
+      return `${bn(d.getDate())} ${months[d.getMonth()]}, ${bn(d.getFullYear())}`;
+    }
+
+    function renderCertificate(tier, ratingPercent, completedCount){
+      const tierInfo = FINAL_BADGE_TIERS.find(b=>b.tier===tier);
+      const nameInput = document.getElementById('certNameInput');
+      const name = escapeHtml((nameInput.value || '').trim() || 'শিক্ষার্থী');
+      document.getElementById('certCard').innerHTML = `
+        <span class="cert-seal">🎖️</span>
+        <div class="cert-title">সম্পন্নতার সনদ</div>
+        <div class="cert-subtitle">Certificate of Completion</div>
+        <div class="cert-presented">এই সনদ প্রদান করা হলো</div>
+        <div class="cert-name">${name}</div>
+        <div class="cert-course">কে <strong>"কম্পিউটার রক্ষণাবেক্ষণ ও সাইবার নিরাপত্তা শিক্ষণ প্ল্যাটফর্ম"</strong>-এ অংশগ্রহণ এবং ${bn(completedCount)}/${bn(FINAL_MODULE_META.length)} মডিউল সম্পন্ন করার জন্য<br>অর্জিত ব্যাজ: <strong>${tierInfo.icon} ${tierInfo.sub}</strong></div>
+        <div class="cert-meta-row">
+          <span>সাইবার সেফটি রেটিং: <strong>${bn(ratingPercent)}%</strong></span>
+          <span>তারিখ: <strong>${formatBnDate()}</strong></span>
+        </div>
+      `;
+    }
+
+    function renderFinal(){
+      const modules = window.appState.modules;
+      const totalPoints = FINAL_MODULE_META.reduce((sum,m)=>sum+modules[m.id].points,0);
+      const maxPoints = FINAL_MODULE_META.reduce((sum,m)=>sum+modules[m.id].maxPoints,0);
+      const completedCount = FINAL_MODULE_META.filter(m=>modules[m.id].completed).length;
+      const progressPercent = Math.round(completedCount/FINAL_MODULE_META.length*100);
+      const ratingPercent = maxPoints ? Math.round(totalPoints/maxPoints*100) : 0;
+      const currentTier = getCurrentTier(ratingPercent, completedCount);
+
+      totalScoreEl.textContent = `${bn(totalPoints)} / ${bn(maxPoints)}`;
+      document.getElementById('finalCompletedModules').textContent = `${bn(completedCount)} / ${bn(FINAL_MODULE_META.length)}`;
+      document.getElementById('finalProgressPercent').textContent = `${bn(progressPercent)}%`;
+      document.getElementById('finalSafetyRating').textContent = `${bn(ratingPercent)}%`;
+
+      const tierOrder = ['bronze','silver','gold'];
+      const currentIdx = tierOrder.indexOf(currentTier);
+      document.getElementById('finalBadgeRow').innerHTML = FINAL_BADGE_TIERS.map((b,i)=>{
+        const earned = i <= currentIdx;
+        const isCurrent = b.tier === currentTier;
+        return `<div class="final-badge-card ${earned?'earned':''} ${isCurrent?'current':''}">
+          <span class="final-badge-icon">${b.icon}</span>
+          <div class="final-badge-label">${b.label}</div>
+          <div class="final-badge-sublabel">${b.sub}</div>
+        </div>`;
+      }).join('');
+
+      document.getElementById('finalModuleList').innerHTML = FINAL_MODULE_META.map(m=>{
+        const st = modules[m.id];
+        return `<div class="final-module-item">
+          <span class="fm-icon">${m.icon}</span>
+          <span class="fm-name">${m.name}</span>
+          <span class="fm-points">${bn(st.points)}/${bn(st.maxPoints)}</span>
+          <span class="fm-status">${st.completed ? '✅' : '⏳'}</span>
+        </div>`;
+      }).join('');
+
+      renderCertificate(currentTier, ratingPercent, completedCount);
+    }
+
+    const nameInputEl = document.getElementById('certNameInput');
+    try{
+      const savedName = localStorage.getItem(CERT_NAME_KEY);
+      if(savedName) nameInputEl.value = savedName;
+    }catch(e){}
+    nameInputEl.addEventListener('input', ()=>{
+      try{ localStorage.setItem(CERT_NAME_KEY, nameInputEl.value); }catch(e){}
+      renderFinal();
+    });
+
+    document.getElementById('certPrintBtn').addEventListener('click', ()=>window.print());
+
+    window.refreshFinalPage = renderFinal;
+    renderFinal();
+  }
+
+  /* ===================== INIT ===================== */
+  initThemeSystem();
+  refreshHome();
+  setActiveNav('home');
+  initPasswordModule();
+  initMatchModule();
+  initTrueFalseModule();
+  initCyberThreatModule();
+  initSafeUnsafeModule();
+  initSortingModule();
+  initTroubleshootModule();
+  initFinalModule();
+  initParallax();
+  initScrollAnimations();
+  hideLoadingScreen();
+
+})();
+</script>
+</body>
+</html>
